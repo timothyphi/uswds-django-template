@@ -42,7 +42,10 @@ DEBUG = False if MODE == "prod" else True
 ALLOWED_HOSTS = ENV_DATA["ALLOWED_HOSTS"]
 
 
+################################################################################
 # Application definition
+################################################################################
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -84,8 +87,11 @@ TEMPLATES = [  # type: ignore
 WSGI_APPLICATION = "django_project.wsgi.application"
 
 
+################################################################################
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+################################################################################
+
 
 DB_HOST = ENV_DATA["DB_HOST"]
 DB_PORT = ENV_DATA["DB_PORT"]
@@ -101,8 +107,11 @@ DATABASES = {  # type: ignore
 }
 
 
+################################################################################
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
+################################################################################
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -120,8 +129,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+################################################################################
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+################################################################################
+
 
 LANGUAGE_CODE = "en-us"
 
@@ -134,8 +146,13 @@ USE_TZ = True
 UTC_OFFSET = timedelta(hours=ENV_DATA["UTC_OFFSET"])  # Washington D.C.
 LOCAL_TIMEZONE = timezone(UTC_OFFSET)
 
+
+################################################################################
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+################################################################################
+
+
 # STATIC_ROOT = BASE_DIR / "staticfiles/"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
@@ -150,7 +167,11 @@ STATICFILES_DIRS = [BASE_DIR / "public"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+################################################################################
 # Logging
+################################################################################
+
+
 LOG_FILE_PATH = Path(ENV_DATA["LOG_FILE_PATH"]).resolve()
 create_directory(LOG_FILE_PATH.parent)
 LOG_FILE_PATH.parent.resolve(strict=True)
@@ -203,6 +224,11 @@ LOGGING = {  # type: ignore
         "root": {"level": ENV_DATA["LOG_LEVEL"], "handlers": ["stdout", "file"]}
     },
 }
+
+
+################################################################################
+# LMain
+################################################################################
 
 
 def main() -> int:
