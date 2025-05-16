@@ -1,6 +1,6 @@
 # torgadden
 
-## Developer Requirements
+## Developer (System) Requirements
 
 These aren't actually hard requirements, just what's on my machine
 
@@ -15,17 +15,65 @@ These aren't actually hard requirements, just what's on my machine
 
 ## Developer Tools
 
+- git
 - typescript
-- esbuild
+- vite
 - eslint
 - gulp
 - prettier
+- uswds
+- uswds-compile
 
-## Useful Commands
+## Setup
 
-### Developer Scripts
+### 1. Install Python dependencies
 
-Check `package.json` for npm scripts.
+```shell
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+### 2. Install JavaScript dependencies
+
+```shell
+npm install
+```
+
+### 3. Initialize USWDS
+
+`TODO` Explain: Why do we need USWDS? We could remove `uswds-compile` (instead use `vite`) and we would no longer need the `gulpfile.js`.
+
+```shell
+npm run uswds-init
+```
+
+- This runs the `gulpfile.js` script.
+- The main thing we need from this command is the USWDS javascript files and the assets being placed in the proper directory.
+
+### 4. Remove and Revert USWDS extras
+
+```shell
+rm public/
+rm public/
+git restore styles/styles.scss
+```
+
+- Since we have our own style system using SCSS, we don't need the files that USWDS generates for us, and we should already have SASS setup with the proper `@forward`ing.
+
+### Option 1. Run tools for development
+
+```shell
+npm run server # Watches `server` directory, triggers rebuild on change
+npm run scss   # Watches `styles` directory, triggers rebuild on change
+npm run ts     # Watches `browser` directory, triggers rebuild on change
+```
+
+### Option 2. Build Browser Code for Deployment
+
+```shell
+npm run build   # One-time builds TS -> JS (bundle) and SCSS -> CSS (bundle)
+```
 
 ## TODO List
 

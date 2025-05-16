@@ -4,7 +4,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'browser/main.ts',
-      name: 'MyBundle',
+      name: 'BrowserBundle',
       fileName: () => 'bundle.js',
       formats: ['es'],
     },
