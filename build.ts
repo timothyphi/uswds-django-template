@@ -8,6 +8,7 @@ async function bundle() {
       entryPoints: ["browser/main.ts"],
       outdir: "public/js",
       bundle: true,
+      treeShaking: true,
       minify: true,
       sourcemap: true,
       platform: "browser" as const,
