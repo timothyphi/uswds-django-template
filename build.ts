@@ -6,7 +6,7 @@ async function bundle() {
   try {
     const config = {
       entryPoints: ["browser/main.ts"],
-      outfile: "public/js/bundle.js",
+      outdir: "public/js",
       bundle: true,
       minify: true,
       sourcemap: true,
