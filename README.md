@@ -7,18 +7,14 @@ These aren't actually hard requirements, just what's on my machine
 - nvm version 0.37.2
 - node version v23.10.0
 - npm version v11.2.0
-- rustc/cargo v1.86.0
-
-TODO: This should be Dockerized eventually
+- python version 3.11
 
 ## Production Requirements
 
-- Nothing...
-- Docker?
+- python version 3.11
 
 ## Developer Tools
 
-- rust-analyzer
 - typescript
 - esbuild
 - eslint
@@ -33,7 +29,6 @@ Check `package.json` for npm scripts.
 
 ## TODO List
 
-1. Watch mode
 1. Integration tests
 1. Security Audit
 1. Accessibility Checker
@@ -52,8 +47,6 @@ Check `package.json` for npm scripts.
    - Ansible scripts to configure machines
      - Test and/or Prod environments?
      - Where should I put the database?
-
-1. Logging
 
 1. Background Tasks
 1. Scheduled Automations
