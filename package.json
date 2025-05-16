@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "scss": "npx gulp watch",
-    "ts": "npx tsx build.ts --watch",
+    "ts": "npx vite build --watch",
     "server": "source .venv/bin/activate && python server/manage.py runserver",
     "build": "npx tsx build.ts && npx gulp compile",
     "uswds-init": "npx gulp init",
@@ -32,6 +32,7 @@
     "jiti": "^2.4.2",
     "prettier": "3.5.3",
     "tsx": "^4.19.3",
-    "typescript-eslint": "^8.26.1"
+    "typescript-eslint": "^8.26.1",
+    "vite": "^6.3.5"
   }
 }
