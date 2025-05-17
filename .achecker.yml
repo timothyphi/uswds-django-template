@@ -3,7 +3,7 @@
 # Run `npx achecker archives` for a list of valid ruleArchive ids and policy ids.
 # If "latest", will use the latest rule release
 # If "versioned" (supported in 3.1.61+), will use the latest rule release at
-# the time this version of the tool was released 
+# the time this version of the tool was released
 ruleArchive: latest
 
 # optional - Specify one or many policies to scan.
@@ -57,7 +57,7 @@ label:
 
 # optional - Where the scan results should be saved.
 # Default: results
-outputFolder: results
+outputFolder: aresults
 
 # Optional - Should the timestamp be included in the filename of the reports?
 # Default: true

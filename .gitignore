@@ -348,4 +348,4 @@ public/server
 .env.toml
 
 # Accessibility checker results
-results
+aresults
