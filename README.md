@@ -13,17 +13,6 @@ These aren't actually hard requirements, just what's on my machine
 
 - python version 3.11
 
-## Developer Tools
-
-- git
-- typescript
-- vite
-- eslint
-- gulp
-- prettier
-- uswds
-- uswds-compile
-
 ## Setup
 
 ### 1. Install Python dependencies
@@ -61,7 +50,7 @@ git restore styles/styles.scss
 
 - Since we have our own style system using SCSS, we don't need the files that USWDS generates for us, and we should already have SASS setup with the proper `@forward`ing.
 
-### Option 1. Run tools for development
+### Option 1. Run tools in development
 
 ```shell
 npm run server # Watches `server` directory, triggers rebuild on change
