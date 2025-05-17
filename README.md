@@ -64,6 +64,14 @@ npm run ts     # Watches `browser` directory, triggers rebuild on change
 npm run build   # One-time builds TS -> JS (bundle) and SCSS -> CSS (bundle)
 ```
 
+### Optional: Run accessibility check
+
+Set in `package.json` to run on <http://localhost:8000/> by default (change if necessary).
+
+```shell
+npm run acheck
+```
+
 ## TODO List
 
 1. Integration tests

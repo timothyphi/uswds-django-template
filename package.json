@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "acheck": "npx achecker http://localhost:8000",
     "server": "source .venv/bin/activate && python server/manage.py runserver",
     "scss": "npx gulp watch",
     "ts": "npx vite build --watch",
@@ -25,6 +26,7 @@
     "@typescript-eslint/parser": "^8.26.1",
     "@uswds/compile": "^1.2.1",
     "@uswds/uswds": "3.12.0",
+    "accessibility-checker": "^4.0.4",
     "eslint": "^9.22.0",
     "eslint-plugin-security": "^3.0.1",
     "globals": "^16.0.0",

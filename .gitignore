@@ -344,4 +344,8 @@ public/server
 
 .logs/**/*
 
+# Django environment file
 .env.toml
+
+# Accessibility checker results
+results
