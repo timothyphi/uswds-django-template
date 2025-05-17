@@ -54,8 +54,8 @@ npm run uswds-init
 ### 4. Remove and Revert USWDS extras
 
 ```shell
-rm public/
-rm public/
+rm styles/_uswds-theme.scss
+rm styles/_uswds-theme-custom-styles.scss
 git restore styles/styles.scss
 ```
 
