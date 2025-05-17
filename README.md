@@ -1,4 +1,4 @@
-# torgadden
+# tempest
 
 ## Developer (System) Requirements
 
@@ -48,7 +48,7 @@ rm styles/_uswds-theme-custom-styles.scss
 git restore styles/styles.scss
 ```
 
-- Since we have our own style system using SCSS, we don't need the files that USWDS generates for us, and we should already have SASS setup with the proper `@forward`ing.
+- We don't need the files that USWDS generates for us, because we can and should already have SASS setup with the proper `@forward`ing to include our own SASS partials.
 
 ### Option 1. Run tools in development
 
@@ -71,6 +71,8 @@ Set in `package.json` to run on <http://localhost:8000/> by default (change if n
 ```shell
 npm run acheck
 ```
+
+Check [here](https://www.npmjs.com/package/accessibility-checker#Configuration) for more information.
 
 ## TODO List
 

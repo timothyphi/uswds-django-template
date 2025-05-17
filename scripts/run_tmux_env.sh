@@ -4,7 +4,7 @@ SESSION="tempest"
 
 SCRIPT_PATH="$(readlink -f "$0")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-PROJECT_DIR="$SCRIPT_DIR/../"
+PROJECT_DIR="$(readlink -f "$SCRIPT_DIR/../")"
 
 tmux new-session -d -s "$SESSION" -c "$PROJECT_DIR"
 
