@@ -17,6 +17,6 @@ tmux send-keys -t "$SESSION:1" 'npm run scss' C-m
 tmux new-window -t "$SESSION:2" -n 'ts' -c "$PROJECT_DIR"
 tmux send-keys -t "$SESSION:2" 'npm run ts' C-m
 
-tmux new-window -t "$SESSION:4" -n 'editor' -c "$PROJECT_DIR"
+tmux new-window -t "$SESSION:3" -n 'editor' -c "$PROJECT_DIR"
 
 tmux attach -t "$SESSION"
