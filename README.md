@@ -1,23 +1,31 @@
 # tempest
 
-A project template utilizing Django (python) as the backend server, SASS for the organizing stylesheets with USWDS as a starter design system, and TypeScript for the client-side browser code.
+A project template utilizing [Django](https://www.djangoproject.com/) as the backend application server the Django templating system, SASS partials for the organizing stylesheets along with [USWDS](https://designsystem.digital.gov/) as a starter design system, and TypeScript with [Vite](https://vite.dev/) for the bundled, client-side, browser code.
 
 ## Developer (System) Requirements
 
 These aren't actually hard requirements, just what's on my machine
 
+- git version 2.39.5
+- python version 3.12
 - nvm version 0.37.2
-- node version v23.10.0
-- npm version v11.2.0
-- python version 3.11
+- node set as version v23.10.0
+- npm set as version v11.2.0
 
 ## Production Requirements
 
-- python version 3.11
+- TBD
+- Python version 3.12
+- Docker?
+- Operating system (which ones?)
 
-## Setup
+## Initial Setup for Development
 
-### 1. Install Python dependencies
+### Step 0. Install Python (or update to at least the version listed above)
+
+Check [here](https://www.python.org/downloads/).
+
+### Step 1. Install Python dependencies
 
 ```shell
 python -m venv .venv
@@ -25,24 +33,24 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-### 2. Install JavaScript dependencies
+### Step 2. Install JavaScript dependencies
 
 ```shell
 npm install
 ```
 
-### 3. Initialize USWDS
+### Step 3. Initialize USWDS
 
-`TODO` Explain: Why do we need USWDS? We could remove `uswds-compile` (instead use `vite`) and we would no longer need the `gulpfile.js`.
+`TODO` Explain: Why do we need USWDS? We could remove [`uswds-compile`](https://github.com/uswds/uswds-compile) (instead use `vite` to compile and watch our SASS) and we would no longer need the `gulpfile.js` and two setup steps (this and the next one). Seems like a heavy dependency.
 
 ```shell
 npm run uswds-init
 ```
 
 - This runs the `gulpfile.js` script.
-- The main thing we need from this command is the USWDS javascript files and the assets being placed in the proper directory.
+- The main thing we need from this command is the USWDS javascript files and the `fonts`, `images`, and `uswds/js` being placed in the proper directory (i.e. `public`).
 
-### 4. Remove and Revert USWDS extras
+### Step 4. Remove and Revert USWDS extras
 
 ```shell
 rm styles/_uswds-theme.scss
@@ -52,7 +60,7 @@ git restore styles/styles.scss
 
 - We don't need the files that USWDS generates for us, because we can and should already have SASS setup with the proper `@forward`ing to include our own SASS partials.
 
-### Option 1. Run tools in development
+### Step 5, Option 1. Run tools in development
 
 ```shell
 npm run server # Watches `server` directory, triggers rebuild on change
@@ -60,27 +68,43 @@ npm run scss   # Watches `styles` directory, triggers rebuild on change
 npm run ts     # Watches `browser` directory, triggers rebuild on change
 ```
 
-### Option 2. Build Browser Code for Deployment
+### Step 5, Option 1. (part 2)
+
+Run all three scripts with `tmux`.
+
+```shell
+./scripts/run_tmux_env.sh
+```
+
+Kill all `tmux` scripts by killing the session.
+
+```shell
+tmux kill-session -t tempest
+```
+
+### Step 5, Option 2. Build Browser Code for Deployment
+
+Make sure to initialize USWDS from Step 3. prior to building the JS and CSS bundles. Or else the HTML and CSS will reference scripts, fonts, and images not yet moved to the `public` directory.
 
 ```shell
 npm run build   # One-time builds TS -> JS (bundle) and SCSS -> CSS (bundle)
 ```
 
-### Optional: Run accessibility check
-
-Set in `package.json` to run on <http://localhost:8000/> by default (change if necessary).
+### Completely Optional: Run accessibility check
 
 ```shell
-npm run acheck
+npm run acheck -- http://localhost:8000
 ```
+
+Runs the accessibility check on the URL provided and generates results.
 
 Check [here](https://www.npmjs.com/package/accessibility-checker#Configuration) for more information.
 
 ## TODO List
 
-1. Integration tests
+1. Watch Mode for server
 1. Security Audit
-1. Accessibility Checker
+1. Integration testing strategy
 
 1. CI/CD
 1. Infrastructure
