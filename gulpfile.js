@@ -43,16 +43,16 @@ uswds.paths.src.projectSass = "./styles";
 
 // Source location of any additional project icons to include in the icon sprite.
 // (Use only these project icons in the sprite by setting sprite.projectIconsOnly to true.)
-uswds.paths.src.projectIcons = "./public/assets/icons";
+uswds.paths.src.projectIcons = "./public/icons";
 
 // Project destination for theme files (Sass entry point and settings)
 uswds.paths.dist.theme = "./styles";
 
 // Project destination for images
-uswds.paths.dist.img = "./public/assets/images";
+uswds.paths.dist.img = "./public/images";
 
 // Project destination for fonts
-uswds.paths.dist.fonts = "./public/assets/fonts";
+uswds.paths.dist.fonts = "./public/fonts";
 
 // Project destination for compiled JavaScript
 uswds.paths.dist.js = "./public/uswds/js";

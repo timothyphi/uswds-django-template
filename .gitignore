@@ -335,12 +335,14 @@ cython_debug/
 # END: https://github.com/github/gitignore/blob/main/Python.gitignore
 #####################################################################
 
-# project specific
-public/index.html
+# We ignore these because they're reserved for USWDS (for now)
+public/images
+public/fonts
+public/uswds
+
+# Compiled Browser code
 public/css
 public/js
-public/uswds
-public/server
 
 .logs/**/*
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "server": "source .venv/bin/activate && python server/manage.py runserver",
+    "server": ". .venv/bin/activate && python server/manage.py runserver",
     "scss": "npx gulp watch",
     "ts": "npx vite build --watch",
     "uswds-init": "npx gulp init",
