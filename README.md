@@ -72,7 +72,7 @@ Run all three scripts with `tmux`.
 Kill all `tmux` scripts by killing the session.
 
 ```shell
-tmux kill-session -t uswds-nuxt-template
+tmux kill-session -t uswds-django-template
 ```
 
 ### Optional: Run accessibility check
