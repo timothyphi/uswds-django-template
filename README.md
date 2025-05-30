@@ -77,10 +77,10 @@ tmux kill-session -t uswds-django-template
 
 ### Optional: Run accessibility check
 
-Set in `package.json` to run on <http://localhost:8000/> by default (change if necessary).
+Set in `package.json` to run on <http://localhost:8000/> for example.
 
 ```shell
-npm run acheck
+npm run acheck -- http://localhost:8000
 ```
 
 [Accessibility check package link](https://www.npmjs.com/package/accessibility-checker#Configuration) for more information.
