@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 SCRIPT_PATH="$(readlink -f "$0")"
