@@ -17,7 +17,7 @@ These aren't actually hard requirements, just what's on my machine
 
 ## Setup
 
-### 1. Install Python dependencies
+### Step 1. Install Python dependencies
 
 ```shell
 python -m venv .venv
@@ -25,25 +25,33 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-### 2. Install JavaScript dependencies
+### Step 2. Install JavaScript dependencies
 
 ```shell
 npm install
 ```
 
-### 3. Initialize USWDS
+### Step 3. Initialize USWDS
 
 ```shell
 ./scripts/uswds_init.sh
 ```
 
-### Step 4. (Option 1) Run tools to do one-time build
+### Step 4. Setup Environment File
+
+```shell
+cp sample.env.toml .env.toml
+```
+
+Fill out environment file for your needs.
+
+### Step 5. (Option 1) Run tools to do one-time build
 
 ```shell
 npm run build
 ```
 
-### Step 4. (Option 2) Run tools in development
+### Step 5. (Option 2) Run tools in development
 
 ```shell
 npm run server # Watches `server` directory, triggers rebuild on change
@@ -53,7 +61,7 @@ npm run ts     # Watches `browser` directory, triggers rebuild on change
 
 Check the `package.json` for more developer scripts.
 
-### Step 4. (Option 3) Run tools in development
+### Step 5. (Option 3) Run tools in development
 
 Run all three scripts with `tmux`.
 
