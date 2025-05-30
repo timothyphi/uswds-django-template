@@ -357,3 +357,6 @@ aresults
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# macOS specific
+.DS_Store
