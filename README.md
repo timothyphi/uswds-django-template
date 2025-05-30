@@ -6,7 +6,6 @@ A project template utilizing Django (python) as the backend server, SASS for the
 
 These aren't actually hard requirements, just what's on my machine
 
-- nvm v0.37.2
 - node v23.10.0
 - npm v11.2.0
 - python v3.11
