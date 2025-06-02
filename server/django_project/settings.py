@@ -172,7 +172,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ################################################################################
 
 
-LOG_FILE_PATH = Path(ENV_DATA["LOG_FILE_PATH"]).resolve()
+LOG_FILE_PATH = Path(BASE_DIR / ENV_DATA["LOG_FILE_PATH"]).resolve()
 create_directory(LOG_FILE_PATH.parent)
 LOG_FILE_PATH.parent.resolve(strict=True)
 
