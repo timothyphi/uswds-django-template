@@ -49,7 +49,7 @@ uswds.paths.src.projectIcons = "./public/icons";
 uswds.paths.dist.theme = "./styles";
 
 // Project destination for images
-uswds.paths.dist.img = "./public/images";
+uswds.paths.dist.img = "./public/img";
 
 // Project destination for fonts
 uswds.paths.dist.fonts = "./public/fonts";
