@@ -102,6 +102,9 @@ It's recommended to build the browser assets (steps 2, 3, and 5) on a seperate m
 
 1. Run the Django server
 
-## Relevant Dependency Documentation
+## Supplemental Documentation
 
-None (yet)
+- [django](https://www.djangoproject.com/)
+- [uswds](https://designsystem.digital.gov/)
+- [vite](https://vite.dev/)
+
