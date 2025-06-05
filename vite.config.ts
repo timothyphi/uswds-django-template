@@ -1,20 +1,19 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 
 export default defineConfig({
   publicDir: false,
 
   build: {
-    outDir: 'public/js',
+    outDir: "public/js",
     emptyOutDir: false,
     sourcemap: true,
-    minify: 'esbuild',
-    watch: {},
+    minify: "esbuild",
 
     rollupOptions: {
-      input: 'browser/main.ts',
+      input: "browser/main.ts",
       output: {
-        entryFileNames: 'bundle.js',
-      }
-    }
-  }
+        entryFileNames: "bundle.js",
+      },
+    },
+  },
 });
