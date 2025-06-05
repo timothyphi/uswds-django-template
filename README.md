@@ -92,7 +92,7 @@ npm run acheck -- http://localhost:8000
 
 ## Running the application in Production
 
-It's recommended to build the browser assets (steps 2, 3, and 5) on a seperate machine.
+It's recommended to build the browser assets (steps 2, 3, and 5) on a separate machine.
 
 1. Move those assets to the production machine
 
@@ -106,5 +106,6 @@ It's recommended to build the browser assets (steps 2, 3, and 5) on a seperate m
 
 - [django](https://www.djangoproject.com/)
 - [uswds](https://designsystem.digital.gov/)
+- [sass](https://sass-lang.com/)
 - [vite](https://vite.dev/)
 
