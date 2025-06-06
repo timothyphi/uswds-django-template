@@ -6,8 +6,5 @@
   "eslint.options": {
     "overrideConfigFile": "eslint.config.ts"
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "python.analysis.typeCheckingMode": "strict",
 }
