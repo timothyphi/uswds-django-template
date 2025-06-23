@@ -39,7 +39,7 @@ SECRET_KEY = ENV_DATA["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if MODE == "prod" else True
 
-ALLOWED_HOSTS = ENV_DATA["ALLOWED_HOSTS"]
+ALLOWED_HOSTS = [*ENV_DATA["ALLOWED_HOSTS"], CONFIG_HOST]
 
 
 ################################################################################
