@@ -153,7 +153,7 @@ LOCAL_TIMEZONE = timezone(UTC_OFFSET)
 ################################################################################
 
 
-# STATIC_ROOT = BASE_DIR / "staticfiles/"
+STATIC_ROOT = BASE_DIR / "staticfiles/"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 # STATIC_URL needs to be set to "assets" for USWDS to import icons properly

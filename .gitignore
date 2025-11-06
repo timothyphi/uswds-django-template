@@ -340,6 +340,9 @@ cython_debug/
 # Django environment file
 .env.toml
 
+# static assets
+/staticfiles/
+
 # Accessibility checker results
 aresults
 
