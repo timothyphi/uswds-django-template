@@ -99,12 +99,58 @@ DB_NAME = ENV_DATA["DB_NAME"]
 DB_USER = ENV_DATA["DB_USER"]
 DB_PASS = ENV_DATA["DB_PASS"]
 
-DATABASES = {  # type: ignore
+# Redis Configuration
+REDIS_HOST = ENV_DATA.get("REDIS_HOST", "localhost")
+REDIS_PORT = ENV_DATA.get("REDIS_PORT", 6379)
+REDIS_DB = ENV_DATA.get("REDIS_DB", 0)
+
+# Database configuration - use SQL Server if credentials are provided, otherwise SQLite
+if DB_HOST and DB_NAME and DB_USER and DB_PASS:
+    DATABASES = {  # type: ignore
+        "default": {
+            "ENGINE": "mssql",
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASS,
+            "HOST": DB_HOST,
+            "PORT": str(DB_PORT),
+            "OPTIONS": {
+                "driver": "ODBC Driver 18 for SQL Server",
+                "extra_params": "TrustServerCertificate=yes",
+            },
+        }
+    }
+else:
+    # Fallback to SQLite for local development
+    DATABASES = {  # type: ignore
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+
+################################################################################
+# Cache Configuration (Redis)
+# https://docs.djangoproject.com/en/5.0/topics/cache/
+################################################################################
+
+
+CACHES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "KEY_PREFIX": "uswds_django",
+        "TIMEOUT": 300,  # 5 minutes default timeout
     }
 }
+
+# Use Redis for session storage
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 
 ################################################################################

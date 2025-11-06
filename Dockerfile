@@ -1,4 +1,4 @@
-# docker build -f .devcontainer/Dockerfile.dev -t uswds-django-dev .
+# docker build -f Dockerfile.dev -t uswds-django-dev .
 # docker run -p 8000:8000 -v $(pwd):/app uswds-django-dev
 
 # Use an official Python runtime as a parent image
@@ -78,8 +78,6 @@ COPY --chown=vscode:vscode . .
 # Build the project
 RUN . $NVM_DIR/nvm.sh \
     && npm run build
-
-RUN python server/manage.py migrate
 
 # Expose the development server port
 EXPOSE 8000

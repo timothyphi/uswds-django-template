@@ -1,0 +1,88 @@
+services:
+  # Microsoft SQL Server Database
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: uswds-mssql
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: YourStrong@Password123
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./database/setup:/docker-entrypoint-initdb.d
+    networks:
+      - uswds-network
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'YourStrong@Password123' -C -Q 'SELECT 1'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: uswds-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - uswds-network
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Django Application
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: uswds-django
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - DJANGO_SETTINGS_MODULE=django_project.settings
+      - DATABASE_URL=mssql://SA:YourStrong@Password123@mssql:1433/uswds_db?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      mssql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - uswds-network
+    command: >
+      sh -c "
+        echo 'Waiting for database...' &&
+        until /opt/mssql-tools18/bin/sqlcmd -S mssql -U SA -P 'YourStrong@Password123' -C -Q 'SELECT 1' > /dev/null 2>&1; do
+          echo 'Database not ready, waiting...'
+          sleep 2
+        done &&
+        echo 'Database is ready!' &&
+        echo 'Creating database if not exists...' &&
+        /opt/mssql-tools18/bin/sqlcmd -S mssql -U SA -P 'YourStrong@Password123' -C -Q \"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'uswds_db') CREATE DATABASE uswds_db\" &&
+        echo 'Running migrations...' &&
+        python server/manage.py migrate &&
+        echo 'Starting Django server...' &&
+        python server/manage.py runserver 0.0.0.0:8000
+      "
+    restart: unless-stopped
+
+networks:
+  uswds-network:
+    driver: bridge
+
+volumes:
+  mssql_data:
+    driver: local
+  redis_data:
+    driver: local

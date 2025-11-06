@@ -44,7 +44,7 @@ cp sample.env.toml .env.toml
 
 Fill out environment file for your needs.
 
-### Step 4. (Option 1) Run tools to do one-time build
+### Step 4. Do one-time build
 
 ```shell
 npm run build
@@ -84,7 +84,21 @@ npm run acheck -- http://localhost:8000
 
 [Accessibility check package link](https://www.npmjs.com/package/accessibility-checker#Configuration) for more information.
 
-## Running the application in Production
+## Don't forget to generate requirements.txt after adding new Python dependencies
+
+Using `pip freeze`:
+
+```shell
+pip freeze > requirements.txt
+```
+
+Using `uv pip`:
+
+```shell
+uv pip freeze > requirements.txt
+```
+
+## Running the application in Production (TODO: needs updating)
 
 It's recommended to build the browser assets (steps 2, 3, and 5) on a separate machine.
 
