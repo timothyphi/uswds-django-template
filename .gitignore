@@ -335,15 +335,6 @@ cython_debug/
 # END: https://github.com/github/gitignore/blob/main/Python.gitignore
 #####################################################################
 
-# We ignore these because they're reserved for USWDS (for now)
-public/img
-public/fonts
-public/uswds
-
-# Compiled Browser code
-public/css
-public/js
-
 .logs/**/*
 
 # Django environment file
