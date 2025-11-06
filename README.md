@@ -36,13 +36,7 @@ python -m pip install -r requirements.txt
 npm install
 ```
 
-### Step 3. Initialize USWDS
-
-```shell
-./scripts/uswds_init.sh
-```
-
-### Step 4. Setup Environment File
+### Step 3. Setup Environment File
 
 ```shell
 cp sample.env.toml .env.toml
@@ -50,13 +44,13 @@ cp sample.env.toml .env.toml
 
 Fill out environment file for your needs.
 
-### Step 5. (Option 1) Run tools to do one-time build
+### Step 4. (Option 1) Run tools to do one-time build
 
 ```shell
 npm run build
 ```
 
-### Step 5. (Option 2) Run tools in development
+### Step 5. Run tools in development
 
 ```shell
 npm run server # Watches `server` directory, triggers rebuild on change
@@ -65,20 +59,6 @@ npm run ts     # Watches `browser` directory, triggers rebuild on change
 ```
 
 Check the `package.json` for more developer scripts.
-
-### Step 5. (Option 3) Run tools in development
-
-Run all three scripts with `tmux`.
-
-```shell
-./scripts/run_tmux_env.sh
-```
-
-Kill all `tmux` scripts by killing the session.
-
-```shell
-tmux kill-session -t uswds-django-template
-```
 
 ### Optional: Run accessibility check
 
