@@ -60,6 +60,20 @@ npm run ts     # Watches `browser` directory, triggers rebuild on change
 
 Check the `package.json` for more developer scripts.
 
+### Step 6. Run using Docker
+
+Build the Docker image
+
+```shell
+docker build -f .devcontainer/Dockerfile.dev -t uswds-django-dev .
+```
+
+Run the Docker container
+
+```shell
+docker run -p 8000:8000 -v $(pwd):/app uswds-django-dev
+```
+
 ### Optional: Run accessibility check
 
 Set in `package.json` to run on <http://localhost:8000/> for example.
@@ -88,4 +102,3 @@ It's recommended to build the browser assets (steps 2, 3, and 5) on a separate m
 - [uswds](https://designsystem.digital.gov/)
 - [sass](https://sass-lang.com/)
 - [vite](https://vite.dev/)
-
