@@ -7,8 +7,8 @@ This document describes how to run the USWDS Django Template using Docker Compos
 The Docker Compose setup includes three main services:
 
 1. **Django Application** (`django`) - Your main web application
-2. **Microsoft SQL Server** (`mssql`) - Database server
-3. **Redis** (`redis`) - Cache and session store
+1. **Microsoft SQL Server** (`mssql`) - Database server
+1. **Redis** (`redis`) - Cache and session store
 
 ## Prerequisites
 
@@ -19,24 +19,27 @@ The Docker Compose setup includes three main services:
 ## Quick Start
 
 1. **Copy the environment configuration:**
-   ```bash
-   cp sample.env.toml .env.toml
-   ```
+
+```bash
+cp sample.env.toml .env.toml
+```
 
 2. **Update the configuration** in `.env.toml` (the Docker settings are already configured)
 
 3. **Start the services:**
-   ```bash
-   ./docker-manage.sh start
-   ```
 
-   Or manually:
-   ```bash
-   docker compose up --build
-   ```
+```bash
+./docker-manage.sh start
+```
+
+Or manually:
+
+```bash
+docker compose up --build
+```
 
 4. **Access the application:**
-   - Django application: http://localhost:8000
+   - Django application: <http://localhost:8000>
    - Database: localhost:1433 (SA/YourStrong@Password123)
    - Redis: localhost:6379
 
@@ -85,6 +88,7 @@ The Django application automatically detects SQL Server configuration and uses i
 The `docker-manage.sh` script provides convenient commands:
 
 ### Basic Operations
+
 ```bash
 ./docker-manage.sh start      # Start all services
 ./docker-manage.sh stop       # Stop all services
@@ -93,6 +97,7 @@ The `docker-manage.sh` script provides convenient commands:
 ```
 
 ### Logging
+
 ```bash
 ./docker-manage.sh logs              # View all logs
 ./docker-manage.sh logs django       # View Django logs only
@@ -100,6 +105,7 @@ The `docker-manage.sh` script provides convenient commands:
 ```
 
 ### Django Management
+
 ```bash
 ./docker-manage.sh manage migrate              # Run migrations
 ./docker-manage.sh manage createsuperuser      # Create admin user
@@ -108,12 +114,14 @@ The `docker-manage.sh` script provides convenient commands:
 ```
 
 ### Database Access
+
 ```bash
 ./docker-manage.sh shell-db        # Connect to SQL Server
 ./docker-manage.sh shell-redis     # Connect to Redis CLI
 ```
 
 ### Cleanup
+
 ```bash
 ./docker-manage.sh clean           # Remove containers, volumes, images
 ```
@@ -123,6 +131,7 @@ The `docker-manage.sh` script provides convenient commands:
 If you prefer using Docker Compose directly:
 
 ### Start services
+
 ```bash
 # Start database and Redis first
 docker compose up -d mssql redis
@@ -132,29 +141,23 @@ docker compose up django
 ```
 
 ### Run Django commands
+
 ```bash
 docker compose exec django python server/manage.py migrate
 docker compose exec django python server/manage.py createsuperuser
 ```
 
 ### Access database
+
 ```bash
 docker compose exec mssql /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'YourStrong@Password123' -C
 ```
 
 ### View logs
+
 ```bash
 docker compose logs -f django
 ```
-
-## Development Workflow
-
-1. **Make code changes** - Files are mounted as volumes, so changes are reflected immediately
-2. **Django auto-reload** - The development server automatically restarts on code changes
-3. **Frontend assets** - Run frontend build commands inside the container:
-   ```bash
-   docker compose exec django npm run build
-   ```
 
 ## Data Persistence
 
@@ -173,6 +176,7 @@ Services communicate through the `uswds-network` Docker network:
 ## Troubleshooting
 
 ### Database Connection Issues
+
 ```bash
 # Check if SQL Server is ready
 docker compose exec mssql /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'YourStrong@Password123' -C -Q 'SELECT 1'
@@ -182,6 +186,7 @@ docker compose logs mssql
 ```
 
 ### Redis Connection Issues
+
 ```bash
 # Check Redis connectivity
 docker compose exec redis redis-cli ping
@@ -191,6 +196,7 @@ docker compose logs redis
 ```
 
 ### Django Issues
+
 ```bash
 # View Django logs
 docker compose logs django
@@ -203,6 +209,7 @@ docker compose exec django python server/manage.py showmigrations
 ```
 
 ### Performance Issues
+
 - Ensure Docker has sufficient RAM allocated (4GB minimum)
 - Check disk space for Docker volumes
 - Monitor container resource usage: `docker stats`
@@ -241,4 +248,4 @@ The Docker setup uses these additional Python packages:
 - `django-redis` - Redis cache backend
 - `redis` - Redis client library
 
-These are installed automatically via `requirements-docker.txt`.
+These are installed automatically via `requirements.txt`.

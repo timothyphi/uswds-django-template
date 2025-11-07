@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install development tools and utilities
 RUN ACCEPT_EULA=Y apt-get install -y \
+  bash \
   build-essential \
   git \
   vim \

@@ -68,8 +68,6 @@ services:
           sleep 2
         done &&
         echo 'Database is ready!' &&
-        echo 'Creating database if not exists...' &&
-        /opt/mssql-tools18/bin/sqlcmd -S mssql -U SA -P 'YourStrong@Password123' -C -Q \"IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'uswds_db') CREATE DATABASE uswds_db\" &&
         echo 'Running migrations...' &&
         python server/manage.py migrate &&
         echo 'Starting Django server...' &&
