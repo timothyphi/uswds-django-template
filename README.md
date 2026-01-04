@@ -8,7 +8,7 @@ These aren't actually hard requirements, just what's on my machine
 
 - node v23.10.0
 - npm v11.2.0
-- python v3.11
+- python v3.12
 
 Also tested on these version of `node` and `npm`
 
@@ -17,7 +17,7 @@ Also tested on these version of `node` and `npm`
 
 ## Production Requirements
 
-- python v3.11
+- python v3.12
 
 ## Setup for Development
 
@@ -39,10 +39,10 @@ npm install
 ### Step 3. Setup Environment File
 
 ```shell
-cp sample.env.toml .env.toml
+cp sample.env .env
 ```
 
-Fill out environment file for your needs.
+Fill out the `.env` file with your configuration values. The file will be automatically loaded by Docker Compose or the application.
 
 ### Step 4. Do one-time build
 
@@ -55,23 +55,47 @@ npm run build
 ```shell
 npm run server # Watches `server` directory, triggers rebuild on change
 npm run scss   # Watches `styles` directory, triggers rebuild on change
-npm run ts     # Watches `browser` directory, triggers rebuild on change
 ```
 
 Check the `package.json` for more developer scripts.
 
-### Step 6. Run using Docker
+### Step 6. Run using Docker Compose
 
-Build the Docker image
+The project includes a docker-compose setup with support for both development and production environments.
+
+**Development mode** (Django dev server on port 8000):
 
 ```shell
-docker build -f .devcontainer/Dockerfile.dev -t uswds-django-dev .
+docker-compose --profile dev up
 ```
 
-Run the Docker container
+**Production mode** (Apache HTTP Server on port 8080):
 
 ```shell
-docker run -p 8000:8000 -v $(pwd):/app uswds-django-dev
+docker-compose --profile prod up
+```
+
+Both modes include:
+
+- Microsoft SQL Server (port 1433)
+- Redis cache (port 6379)
+- Automatic database migrations
+- Health checks for all services
+
+To rebuild containers:
+
+```shell
+docker-compose --profile dev up --build
+# or
+docker-compose --profile prod up --build
+```
+
+To stop and remove containers:
+
+```shell
+docker-compose --profile dev down
+# or
+docker-compose --profile prod down
 ```
 
 ### Optional: Run accessibility check
@@ -98,21 +122,58 @@ Using `uv pip`:
 uv pip freeze > requirements.txt
 ```
 
-## Running the application in Production (TODO: needs updating)
+## Running the application in Production
 
-It's recommended to build the browser assets (steps 2, 3, and 5) on a separate machine.
+The production setup uses Docker Compose with Apache HTTP Server serving the Django application via mod_wsgi.
 
-1. Move those assets to the production machine
+### Option 1: Using Docker Compose (Recommended)
 
-1. Install the Python dependencies (step 1)
+Run the production stack:
 
-1. Setup the environment file (step 4)
+```shell
+docker-compose --profile prod up -d
+```
 
-1. Run the Django server
+The application will be available at <http://localhost:8080>
+
+Services included:
+
+- Django application with Apache HTTP Server (port 8080)
+- Microsoft SQL Server database (port 1433)
+- Redis cache (port 6379)
+
+### Option 2: Manual Production Build
+
+Build the production Docker image:
+
+```shell
+docker build -f infra/prod.Dockerfile -t uswds-django-prod .
+```
+
+Run the production container:
+
+```shell
+docker run -p 8080:8080 \
+  -e DATABASE_URL="your-database-url" \
+  -e REDIS_URL="redis://your-redis:6379/0" \
+  -e ALLOWED_HOSTS="your-domain.com" \
+  uswds-django-prod
+```
+
+### Production Configuration
+
+Key environment variables:
+
+- `MODE=prod`
+- `DEBUG=False`
+- `ALLOWED_HOSTS` - Set to your domain(s)
+- `DATABASE_URL` - Microsoft SQL Server connection string
+- `REDIS_URL` - Redis cache connection string
+
+Static files are automatically collected during the Docker build and served by Apache.
 
 ## Supplemental Documentation
 
 - [django](https://www.djangoproject.com/)
 - [uswds](https://designsystem.digital.gov/)
 - [sass](https://sass-lang.com/)
-- [vite](https://vite.dev/)

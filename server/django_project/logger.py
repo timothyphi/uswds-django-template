@@ -51,4 +51,3 @@ class JsonFormatter(logging.Formatter):
                 message[key] = val
 
         return message
-

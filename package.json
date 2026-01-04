@@ -6,39 +6,17 @@
   "scripts": {
     "server": "python server/manage.py runserver",
     "scss": "npx gulp watch",
-    "ts": "npx vite build --watch",
-    "uswds-init": "npx gulp init",
-    "build": "npx vite build && npx gulp compile",
-    "eslint": "npx eslint",
-    "e2e": "npx playwright test",
+    "build": "npx gulp compile",
     "test": "echo \"Error: no test specified\" && exit 1",
     "acheck": "npx achecker"
   },
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "@zod/mini": "^4.0.0-beta.20250417T043022"
-  },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@playwright/test": "^1.52.0",
-    "@stylistic/eslint-plugin": "^4.4.0",
-    "@types/eslint-plugin-security": "^3.0.0",
     "@types/node": "^22.13.10",
-    "@typescript-eslint/parser": "^8.26.1",
     "@uswds/compile": "^1.2.1",
     "@uswds/uswds": "3.12.0",
-    "accessibility-checker": "^4.0.4",
-    "eslint": "^9.22.0",
-    "eslint-config-flat-gitignore": "^2.1.0",
-    "eslint-import-resolver-typescript": "^4.4.2",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-security": "^3.0.1",
-    "globals": "^16.0.0",
-    "jiti": "^2.4.2",
-    "tsx": "^4.19.3",
-    "typescript-eslint": "^8.26.1",
-    "vite": "^6.3.5"
+    "accessibility-checker": "^4.0.4"
   }
 }

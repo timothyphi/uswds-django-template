@@ -5,17 +5,17 @@ services:
     container_name: uswds-mssql
     environment:
       ACCEPT_EULA: Y
-      SA_PASSWORD: YourStrong@Password123
+      SA_PASSWORD: ${DB_PASS:-YourStrong@Password123}
       MSSQL_PID: Express
     ports:
-      - "1433:1433"
+      - "${DB_PORT:-1433}:1433"
     volumes:
       - mssql_data:/var/opt/mssql
       - ./database/setup:/docker-entrypoint-initdb.d
     networks:
       - uswds-network
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'YourStrong@Password123' -C -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$${DB_PASS:-YourStrong@Password123}' -C -Q 'SELECT 1'"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -26,7 +26,7 @@ services:
     image: redis:7-alpine
     container_name: uswds-redis
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -38,21 +38,26 @@ services:
       timeout: 10s
       retries: 3
 
-  # Django Application
+  # Django Application - Development
   django:
+    profiles: ["dev"]
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: uswds-django
+      dockerfile: ./infra/dev.Dockerfile
+    container_name: uswds-django-dev
+    env_file:
+      - .env
     ports:
-      - "8000:8000"
+      - "${PORT:-8000}:8000"
     volumes:
       - .:/app
       - /app/node_modules
     environment:
       - DJANGO_SETTINGS_MODULE=django_project.settings
-      - DATABASE_URL=mssql://SA:YourStrong@Password123@mssql:1433/uswds_db?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes
-      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=mssql://${DB_USER:-SA}:${DB_PASS:-YourStrong@Password123}@mssql:1433/${DB_NAME:-uswds_db}?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes
+      - REDIS_URL=redis://redis:6379/${REDIS_DB:-0}
+      - MODE=dev
+      - DEBUG=True
     depends_on:
       mssql:
         condition: service_healthy
@@ -63,7 +68,7 @@ services:
     command: >
       sh -c "
         echo 'Waiting for database...' &&
-        until /opt/mssql-tools18/bin/sqlcmd -S mssql -U SA -P 'YourStrong@Password123' -C -Q 'SELECT 1' > /dev/null 2>&1; do
+        until /opt/mssql-tools18/bin/sqlcmd -S mssql -U $${DB_USER:-SA} -P '$${DB_PASS:-YourStrong@Password123}' -C -Q 'SELECT 1' > /dev/null 2>&1; do
           echo 'Database not ready, waiting...'
           sleep 2
         done &&
@@ -73,6 +78,44 @@ services:
         echo 'Starting Django server...' &&
         python server/manage.py runserver 0.0.0.0:8000
       "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Django Application - Production
+  django-prod:
+    profiles: ["prod"]
+    build:
+      context: .
+      dockerfile: ./infra/prod.Dockerfile
+    container_name: uswds-django-prod
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    environment:
+      - DJANGO_SETTINGS_MODULE=django_project.settings
+      - DATABASE_URL=mssql://${DB_USER:-SA}:${DB_PASS:-YourStrong@Password123}@mssql:1433/${DB_NAME:-uswds_db}?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes
+      - REDIS_URL=redis://redis:6379/${REDIS_DB:-0}
+      - MODE=prod
+      - DEBUG=False
+    depends_on:
+      mssql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - uswds-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     restart: unless-stopped
 
 networks:

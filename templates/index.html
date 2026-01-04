@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% block title %}My Django App{% endblock %}</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicons/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicons/favicon-192.png' %}">
+  <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicons/favicon-144.png' %}">
+  <link rel="icon" type="image/png" sizes="114x114" href="{% static 'img/favicons/favicon-114.png' %}">
+  <link rel="icon" type="image/png" sizes="72x72" href="{% static 'img/favicons/favicon-72.png' %}">
+  <link rel="icon" type="image/png" sizes="57x57" href="{% static 'img/favicons/favicon-57.png' %}">
+  <link rel="icon" type="image/png" sizes="40x40" href="{% static 'img/favicons/favicon-40.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicons/favicon-16.png' %}">
+  <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
+
+  <!-- USWDS Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  {% block header %}
+  <header class="usa-header usa-header--basic">
+    <div class="usa-nav-container">
+      <div class="usa-navbar">
+        <div class="usa-logo">
+          <em class="usa-logo__text">
+            <a href="/" title="Home">My Django App</a>
+          </em>
+        </div>
+        <button type="button" class="usa-menu-btn">Menu</button>
+      </div>
+      <nav aria-label="Primary navigation" class="usa-nav">
+        <button type="button" class="usa-nav__close">
+          <img src="{% static 'img/usa-icons/close.svg' %}" role="img" alt="Close" />
+        </button>
+        <ul class="usa-nav__primary usa-accordion">
+          <li class="usa-nav__primary-item">
+            <a href="/" class="usa-nav__link">
+              <span>Home</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  {% endblock %}
+
+  {% block banner %}{% endblock %}
+
+  <main id="main-content">
+    {% block content %}
+    <section class="usa-section">
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="desktop:grid-col-12">
+            <h1>Welcome to My Django App</h1>
+            <p class="usa-intro">
+              This is a Django application using the U.S. Web Design System.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="usa-footer usa-footer--slim">
+    <div class="grid-container usa-footer__return-to-top">
+      <a href="#">Return to top</a>
+    </div>
+    <div class="usa-footer__primary-section">
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="desktop:grid-col-12">
+            <p class="usa-footer__logo-heading">My Django App</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="usa-footer__secondary-section">
+      <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="usa-footer__contact-links desktop:grid-col-12">
+            <p>&copy; {% now "Y" %} My Django App. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <!-- USWDS Scripts -->
+  <script src="{% static 'uswds/js/uswds-init.min.js' %}"></script>
+  <script src="{% static 'uswds/js/uswds.min.js' %}"></script>
+  <script src="{% static 'js/bundle.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

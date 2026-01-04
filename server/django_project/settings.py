@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from datetime import timedelta, timezone
 from pathlib import Path
-from tomllib import load as load_toml_config
+
+from dotenv import load_dotenv
 
 
 def create_directory(folderpath: Path) -> None:
@@ -19,27 +20,57 @@ def create_directory(folderpath: Path) -> None:
     os.makedirs(folderpath, exist_ok=True)
 
 
+def get_env(key: str, default: str | None = None, required: bool = False) -> str:
+    """Get environment variable with optional default and required validation"""
+    value = os.getenv(key, default)
+    if required and value is None:
+        raise ValueError(f"Required environment variable '{key}' is not set")
+    return value or ""
+
+
+def get_env_bool(key: str, default: bool = False) -> bool:
+    """Get boolean environment variable"""
+    value = os.getenv(key, str(default)).lower()
+    return value in ("true", "1", "yes", "on")
+
+
+def get_env_int(key: str, default: int = 0) -> int:
+    """Get integer environment variable"""
+    try:
+        return int(os.getenv(key, str(default)))
+    except ValueError:
+        return default
+
+
+def get_env_list(key: str, default: list[str] | None = None) -> list[str]:
+    """Get comma-separated list from environment variable"""
+    value = os.getenv(key, "")
+    if not value and default:
+        return default
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-ENV_FILE = BASE_DIR / ".env.toml"
-with open(ENV_FILE, "rb") as f:
-    ENV_DATA = load_toml_config(f)
 
-MODE = ENV_DATA["MODE"]
-ENV_DATA = ENV_DATA[MODE]  # type: ignore
-CONFIG_PORT = ENV_DATA["PORT"]
-CONFIG_HOST = ENV_DATA["HOST"]
+# Load environment variables from .env file if it exists
+# If not found, will fall back to system environment variables
+load_dotenv(BASE_DIR / ".env")
+
+MODE = get_env("MODE", "dev")
+CONFIG_PORT = get_env_int("PORT", 8000)
+CONFIG_HOST = get_env("HOST", "localhost")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ENV_DATA["SECRET_KEY"]
+SECRET_KEY = get_env("SECRET_KEY", required=True)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if MODE == "prod" else True
+DEBUG = get_env_bool("DEBUG", default=(MODE != "prod"))
 
-ALLOWED_HOSTS = [*ENV_DATA["ALLOWED_HOSTS"], CONFIG_HOST]
+ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", [CONFIG_HOST])
 
 
 ################################################################################
@@ -93,16 +124,16 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 ################################################################################
 
 
-DB_HOST = ENV_DATA["DB_HOST"]
-DB_PORT = ENV_DATA["DB_PORT"]
-DB_NAME = ENV_DATA["DB_NAME"]
-DB_USER = ENV_DATA["DB_USER"]
-DB_PASS = ENV_DATA["DB_PASS"]
+DB_HOST = get_env("DB_HOST", "")
+DB_PORT = get_env_int("DB_PORT", 1433)
+DB_NAME = get_env("DB_NAME", "")
+DB_USER = get_env("DB_USER", "")
+DB_PASS = get_env("DB_PASS", "")
 
 # Redis Configuration
-REDIS_HOST = ENV_DATA.get("REDIS_HOST", "localhost")
-REDIS_PORT = ENV_DATA.get("REDIS_PORT", 6379)
-REDIS_DB = ENV_DATA.get("REDIS_DB", 0)
+REDIS_HOST = get_env("REDIS_HOST", "localhost")
+REDIS_PORT = get_env_int("REDIS_PORT", 6379)
+REDIS_DB = get_env_int("REDIS_DB", 0)
 
 # Database configuration - use SQL Server if credentials are provided, otherwise SQLite
 if DB_HOST and DB_NAME and DB_USER and DB_PASS:
@@ -136,7 +167,7 @@ else:
 ################################################################################
 
 
-CACHES = {
+CACHES = {  # type: ignore
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
@@ -189,7 +220,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-UTC_OFFSET = timedelta(hours=ENV_DATA["UTC_OFFSET"])  # Washington D.C.
+UTC_OFFSET = timedelta(hours=get_env_int("UTC_OFFSET", -5))  # Washington D.C.
 LOCAL_TIMEZONE = timezone(UTC_OFFSET)
 
 
@@ -218,12 +249,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ################################################################################
 
 
-LOG_FILE_PATH = Path(BASE_DIR / ENV_DATA["LOG_FILE_PATH"]).resolve()
+LOG_FILE_PATH = Path(BASE_DIR / get_env("LOG_FILE_PATH", "logs/django.log")).resolve()
 create_directory(LOG_FILE_PATH.parent)
 LOG_FILE_PATH.parent.resolve(strict=True)
 
+LOG_FORMATTER = get_env("LOG_FORMATTER", "simple")
+
 # If we output JSON, we want the file extension to reflect JSON Lines (.jsonl)
-if ENV_DATA["LOG_FORMATTER"] == "json" and LOG_FILE_PATH.suffix != ".jsonl":
+if LOG_FORMATTER == "json" and LOG_FILE_PATH.suffix != ".jsonl":
     LOG_FILE_PATH = LOG_FILE_PATH.parent / Path(LOG_FILE_PATH.name + ".jsonl")  # type: ignore
 
 LOGGING = {  # type: ignore
@@ -260,15 +293,13 @@ LOGGING = {  # type: ignore
         "file": {
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
-            "formatter": ENV_DATA["LOG_FORMATTER"],
+            "formatter": LOG_FORMATTER,
             "filename": LOG_FILE_PATH,
-            "maxBytes": ENV_DATA["LOG_FILE_SIZE"],
-            "backupCount": ENV_DATA["LOG_FILE_ROTATION"],
+            "maxBytes": get_env_int("LOG_FILE_SIZE", 10485760),  # 10MB default
+            "backupCount": get_env_int("LOG_FILE_ROTATION", 5),
         },
     },
-    "loggers": {
-        "root": {"level": ENV_DATA["LOG_LEVEL"], "handlers": ["stdout", "file"]}
-    },
+    "loggers": {"root": {"level": get_env("LOG_LEVEL", "INFO"), "handlers": ["stdout", "file"]}},
 }
 
 
