@@ -1,7 +1,86 @@
 # Makefile for USWDS Django Template
 # Run 'make help' to see all available commands
 
-.PHONY: help build dev-server dev-watch-scss django-check django-collectstatic django-createapp django-makemigrations django-migrate django-shell django-showmigrations django-superuser docker-dev-build docker-dev-down docker-dev-down-volumes docker-dev-logs docker-dev-rebuild docker-dev-restart docker-dev-up docker-prod-build docker-prod-down docker-prod-down-volumes docker-prod-logs docker-prod-rebuild docker-prod-restart docker-prod-up docker-exec-dev docker-exec-prod docker-ps docker-prune docker-logs env-setup install install-node install-python install-dev setup python-add-pip python-add-uv python-freeze python-freeze-uv lint format lint-fix quality test-accessibility test-django test-django-coverage clean clean-python clean-node clean-venv clean-all
+# Help
+.PHONY: help
+
+# Build & Compilation
+.PHONY: build
+
+# Development - Local (without Docker)
+.PHONY: dev-server
+.PHONY: dev-watch-scss
+
+# Django Commands
+.PHONY: django-check
+.PHONY: django-collectstatic
+.PHONY: django-createapp
+.PHONY: django-makemigrations
+.PHONY: django-migrate
+.PHONY: django-shell
+.PHONY: django-showmigrations
+.PHONY: django-superuser
+
+# Docker - Development Profile
+.PHONY: docker-dev-build
+.PHONY: docker-dev-down
+.PHONY: docker-dev-down-volumes
+.PHONY: docker-dev-logs
+.PHONY: docker-dev-rebuild
+.PHONY: docker-dev-restart
+.PHONY: docker-dev-restart-all
+.PHONY: docker-dev-up
+
+# Docker - Production Profile
+.PHONY: docker-prod-build
+.PHONY: docker-prod-down
+.PHONY: docker-prod-down-volumes
+.PHONY: docker-prod-logs
+.PHONY: docker-prod-rebuild
+.PHONY: docker-prod-restart
+.PHONY: docker-prod-restart-all
+.PHONY: docker-prod-up
+
+# Docker - Utilities
+.PHONY: docker-exec-dev
+.PHONY: docker-exec-prod
+.PHONY: docker-ps
+.PHONY: docker-prune
+.PHONY: docker-logs
+
+# Environment Setup
+.PHONY: env-setup
+
+# Installation & Setup
+.PHONY: install
+.PHONY: install-node
+.PHONY: install-python
+.PHONY: install-dev
+.PHONY: setup
+
+# Python Environment
+.PHONY: python-add-pip
+.PHONY: python-add-uv
+.PHONY: python-freeze
+.PHONY: python-freeze-uv
+
+# Code Quality
+.PHONY: lint
+.PHONY: format
+.PHONY: lint-fix
+.PHONY: quality
+
+# Testing & Quality
+.PHONY: test-accessibility
+.PHONY: test-django
+.PHONY: test-django-coverage
+
+# Cleanup
+.PHONY: clean
+.PHONY: clean-python
+.PHONY: clean-node
+.PHONY: clean-venv
+.PHONY: clean-all
 
 # Default target - shows help
 .DEFAULT_GOAL := help
@@ -31,8 +110,9 @@ help:
 	@echo "    docker-dev-down         - Stop and remove development containers"
 	@echo "    docker-dev-down-volumes - Stop and remove development containers with volumes"
 	@echo "    docker-dev-logs         - View development container logs (use: make docker-dev-logs SERVICE=django)"
-	@echo "    docker-dev-rebuild      - Rebuild and start development environment"
-	@echo "    docker-dev-restart      - Restart development containers"
+	@echo "    docker-dev-rebuild      - Rebuild and start development environment (foreground)"
+	@echo "    docker-dev-restart      - Restart a single service (use: make docker-dev-restart SERVICE=django)"
+	@echo "    docker-dev-restart-all  - Restart all development containers"
 	@echo "    docker-dev-up           - Start development environment in detached mode"
 	@echo ""
 	@echo "  Docker - Production Profile:"
@@ -40,8 +120,9 @@ help:
 	@echo "    docker-prod-down        - Stop and remove production containers"
 	@echo "    docker-prod-down-volumes - Stop and remove production containers with volumes"
 	@echo "    docker-prod-logs        - View production container logs (use: make docker-prod-logs SERVICE=django)"
-	@echo "    docker-prod-rebuild     - Rebuild and start production environment"
-	@echo "    docker-prod-restart     - Restart production containers"
+	@echo "    docker-prod-rebuild     - Rebuild and start production environment (foreground)"
+	@echo "    docker-prod-restart     - Restart a single service (use: make docker-prod-restart SERVICE=django)"
+	@echo "    docker-prod-restart-all - Restart all production containers"
 	@echo "    docker-prod-up          - Start production environment in detached mode"
 	@echo ""
 	@echo "  Docker - Utilities:"
@@ -58,7 +139,7 @@ help:
 	@echo "    install                 - Install all dependencies (Python + Node.js)"
 	@echo "    install-node            - Install Node.js dependencies"
 	@echo "    install-python          - Install Python dependencies in virtual environment"
-	@echo "    install-dev             - Install Python dev dependencies (Ruff, etc.)"
+	@echo "    install-dev             - Install Python dev dependencies (Ruff, coverage, etc.)"
 	@echo "    setup                   - Complete initial setup (install deps + setup env + build)"
 	@echo ""
 	@echo "  Python Environment:"
@@ -79,7 +160,7 @@ help:
 	@echo "    test-django-coverage    - Run Django tests with coverage"
 	@echo ""
 	@echo "  Cleanup:"
-	@echo "    clean                   - Cleans artifacts and caches for python and node"
+	@echo "    clean                   - Clean artifacts and caches for Python and Node.js"
 	@echo "    clean-python            - Clean all build artifacts and caches"
 	@echo "    clean-node              - Clean Node.js artifacts"
 	@echo "    clean-venv              - Clean Python virtual environment"
@@ -167,12 +248,21 @@ docker-dev-down-volumes:
 docker-dev-logs:
 	docker compose --profile dev logs -f $(SERVICE)
 
-# Rebuild and start development environment
+# Rebuild and start development environment (foreground)
 docker-dev-rebuild:
 	docker compose --profile dev up --build
 
-# Restart development containers
+# Restart a single development service
+# Usage: make docker-dev-restart SERVICE=django
 docker-dev-restart:
+ifndef SERVICE
+	@echo "ERROR: SERVICE is required. Usage: make docker-dev-restart SERVICE=django"
+	@exit 1
+endif
+	docker compose --profile dev restart $(SERVICE)
+
+# Restart all development containers
+docker-dev-restart-all:
 	docker compose --profile dev restart
 
 # Start development environment in detached mode
@@ -200,12 +290,21 @@ docker-prod-down-volumes:
 docker-prod-logs:
 	docker compose --profile prod logs -f $(SERVICE)
 
-# Rebuild and start production environment
+# Rebuild and start production environment (foreground)
 docker-prod-rebuild:
 	docker compose --profile prod up --build
 
-# Restart production containers
+# Restart a single production service
+# Usage: make docker-prod-restart SERVICE=django
 docker-prod-restart:
+ifndef SERVICE
+	@echo "ERROR: SERVICE is required. Usage: make docker-prod-restart SERVICE=django"
+	@exit 1
+endif
+	docker compose --profile prod restart $(SERVICE)
+
+# Restart all production containers
+docker-prod-restart-all:
 	docker compose --profile prod restart
 
 # Start production environment in detached mode
@@ -273,9 +372,9 @@ install-python:
 	.venv/bin/pip install --upgrade pip
 	.venv/bin/pip install -r requirements.txt
 
-# Install Python dev dependencies (Ruff, etc.)
+# Install Python dev dependencies (Ruff, coverage, etc.)
 install-dev:
-	.venv/bin/pip install ruff
+	.venv/bin/pip install ruff coverage
 
 # Complete initial setup (install deps + setup env + build)
 setup: install env-setup build
@@ -368,7 +467,7 @@ test-django-coverage:
 # Cleanup
 # =============================================================================
 
-# Cleans artifacts and caches for python and node
+# Clean artifacts and caches for Python and Node.js
 clean: clean-python clean-node clean-venv
 
 # Clean all build artifacts and caches
@@ -391,5 +490,5 @@ clean-venv:
 	@echo "DONE: Cleaned Python virtual environment"
 
 # Clean everything (artifacts, dependencies, Docker)
-clean-all: clean clean-node clean-venv docker-dev-down-volumes docker-prod-down-volumes
+clean-all: clean docker-dev-down-volumes docker-prod-down-volumes
 	@echo "DONE: Complete cleanup finished"
