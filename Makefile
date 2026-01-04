@@ -61,8 +61,6 @@
 # Python Environment
 .PHONY: python-add-pip
 .PHONY: python-add-uv
-.PHONY: python-freeze
-.PHONY: python-freeze-uv
 
 # Code Quality
 .PHONY: lint
@@ -89,7 +87,7 @@
 help:
 	@echo "Available targets:"
 	@echo "  Build & Compilation:"
-	@echo "    build                   - Build all frontend assets (SCSS, TypeScript)"
+	@echo "    build                   - Build styles (SCSS)"
 	@echo ""
 	@echo "  Development - Local (without Docker):"
 	@echo "    dev-server              - Run Django development server (local Python)"
@@ -142,11 +140,9 @@ help:
 	@echo "    install-dev             - Install Python dev dependencies (Ruff, coverage, etc.)"
 	@echo "    setup                   - Complete initial setup (install deps + setup env + build)"
 	@echo ""
-	@echo "  Python Environment:"
-	@echo "    python-add-pip          - Add a Python package using pip (use: make python-add-pip PACKAGE=django)"
-	@echo "    python-add-uv           - Add a Python package using uv (use: make python-add-uv PACKAGE=django)"
-	@echo "    python-freeze           - Freeze Python dependencies to requirements.txt"
-	@echo "    python-freeze-uv        - Freeze Python dependencies using uv"
+	@echo "  Python Dependencies:"
+	@echo "    python-add-pip          - Add a Python package using pip and update requirements.txt (use: make python-add-pip PACKAGE=django)"
+	@echo "    python-add-uv           - Add a Python package using uv and update requirements.txt (use: make python-add-uv PACKAGE=django)"
 	@echo ""
 	@echo "  Code Quality:"
 	@echo "    lint                    - Run linter (Ruff) on Python code"
@@ -170,7 +166,7 @@ help:
 # Build & Compilation
 # =============================================================================
 
-# Build all frontend assets (SCSS, TypeScript)
+# Build styles (SCSS)
 build:
 	npx gulp compile
 
@@ -392,7 +388,7 @@ ifndef PACKAGE
 	@exit 1
 endif
 	.venv/bin/pip install $(PACKAGE)
-	$(MAKE) python-freeze
+	.venv/bin/pip freeze > requirements.txt
 	@echo "DONE: Added $(PACKAGE) and updated requirements.txt"
 
 # Add a Python package using uv and update requirements.txt
@@ -403,16 +399,8 @@ ifndef PACKAGE
 	@exit 1
 endif
 	uv pip install $(PACKAGE)
-	$(MAKE) python-freeze-uv
-	@echo "DONE: Added $(PACKAGE) and updated requirements.txt"
-
-# Freeze Python dependencies to requirements.txt
-python-freeze:
-	.venv/bin/pip freeze > requirements.txt
-
-# Freeze Python dependencies using uv
-python-freeze-uv:
 	uv pip freeze > requirements.txt
+	@echo "DONE: Added $(PACKAGE) and updated requirements.txt"
 
 # =============================================================================
 # Code Quality
