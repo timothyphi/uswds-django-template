@@ -8,7 +8,7 @@ These aren't actually hard requirements, just what's on my machine
 
 - node v23.10.0
 - npm v11.2.0
-- python v3.12
+- python v3.11
 
 Also tested on these version of `node` and `npm`
 
@@ -17,7 +17,7 @@ Also tested on these version of `node` and `npm`
 
 ## Production Requirements
 
-- python v3.12
+- python v3.11
 
 ## Setup for Development
 
@@ -121,56 +121,6 @@ Using `uv pip`:
 ```shell
 uv pip freeze > requirements.txt
 ```
-
-## Running the application in Production
-
-The production setup uses Docker Compose with Apache HTTP Server serving the Django application via mod_wsgi.
-
-### Option 1: Using Docker Compose (Recommended)
-
-Run the production stack:
-
-```shell
-docker compose --profile prod up -d
-```
-
-The application will be available at <http://localhost:8080>
-
-Services included:
-
-- Django application with Apache HTTP Server (port 8080)
-- Microsoft SQL Server database (port 1433)
-- Redis cache (port 6379)
-
-### Option 2: Manual Production Build
-
-Build the production Docker image:
-
-```shell
-docker build -f infra/prod.Dockerfile -t uswds-django-prod .
-```
-
-Run the production container:
-
-```shell
-docker run -p 8080:8080 \
-  -e DATABASE_URL="your-database-url" \
-  -e REDIS_URL="redis://your-redis:6379/0" \
-  -e ALLOWED_HOSTS="your-domain.com" \
-  uswds-django-prod
-```
-
-### Production Configuration
-
-Key environment variables:
-
-- `MODE=prod`
-- `DEBUG=False`
-- `ALLOWED_HOSTS` - Set to your domain(s)
-- `DATABASE_URL` - Microsoft SQL Server connection string
-- `REDIS_URL` - Redis cache connection string
-
-Static files are automatically collected during the Docker build and served by Apache.
 
 ## Supplemental Documentation
 
