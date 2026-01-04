@@ -2,13 +2,17 @@
 # Use Red Hat Universal Base Image 9 with Python 3.11
 FROM registry.access.redhat.com/ubi9/python-311:latest
 
+# Build argument for SECRET_KEY
+ARG SECRET_KEY
+
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     MODE=prod \
-    DEBUG=False
+    DEBUG=False \
+    SECRET_KEY=${SECRET_KEY}
 
 # Set working directory
 WORKDIR /app
@@ -52,6 +56,9 @@ RUN mod_wsgi-express module-config > /etc/httpd/conf.modules.d/02-wsgi.conf
 
 # Copy Apache configuration
 COPY infra/apache-config.conf /etc/httpd/conf.d/django.conf
+
+# Remove default SSL configuration (SSL handled by reverse proxy/load balancer)
+RUN rm -f /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/autoindex.conf /etc/httpd/conf.d/welcome.conf
 
 # Create logs directory and set proper permissions
 RUN mkdir -p /app/logs && \

@@ -86,6 +86,8 @@ services:
     build:
       context: .
       dockerfile: ./infra/prod.Dockerfile
+      args:
+        - SECRET_KEY=${SECRET_KEY}
     container_name: uswds-django-prod
     env_file:
       - .env

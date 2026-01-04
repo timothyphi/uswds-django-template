@@ -1,0 +1,17 @@
+<div class="usa-accordion{% if bordered %} usa-accordion--bordered{% endif %}"{% if multiselectable %} data-allow-multiple{% endif %}>
+  {% for item in items %}
+  <h4 class="usa-accordion__heading">
+    <button
+      type="button"
+      class="usa-accordion__button"
+      aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+      aria-controls="{{ id_prefix }}-{{ forloop.counter }}"
+    >
+      {{ item.title }}
+    </button>
+  </h4>
+  <div id="{{ id_prefix }}-{{ forloop.counter }}" class="usa-accordion__content usa-prose"{% if not forloop.first %} hidden{% endif %}>
+    {{ item.content|safe }}
+  </div>
+  {% endfor %}
+</div>

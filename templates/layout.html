@@ -1,0 +1,124 @@
+{% load static %}
+{% load component_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% block title %}My Django App{% endblock %}</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="{% static 'img/favicons/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/favicons/favicon-192.png' %}">
+  <link rel="icon" type="image/png" sizes="144x144" href="{% static 'img/favicons/favicon-144.png' %}">
+  <link rel="icon" type="image/png" sizes="114x114" href="{% static 'img/favicons/favicon-114.png' %}">
+  <link rel="icon" type="image/png" sizes="72x72" href="{% static 'img/favicons/favicon-72.png' %}">
+  <link rel="icon" type="image/png" sizes="57x57" href="{% static 'img/favicons/favicon-57.png' %}">
+  <link rel="icon" type="image/png" sizes="40x40" href="{% static 'img/favicons/favicon-40.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicons/favicon-16.png' %}">
+  <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
+
+  <!-- USWDS Styles -->
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  {% comment %} Official Government Banner {% endcomment %}
+  {% component "banner" %}
+
+  {% block header %}
+  <header class="usa-header usa-header--basic">
+    <div class="usa-nav-container">
+      <div class="usa-navbar">
+        <div class="usa-logo">
+          <em class="usa-logo__text">
+            <a href="/" title="Home">My Django App</a>
+          </em>
+        </div>
+        <button type="button" class="usa-menu-btn">Menu</button>
+      </div>
+      <nav aria-label="Primary navigation" class="usa-nav">
+        <button type="button" class="usa-nav__close">
+          <img src="{% static 'img/usa-icons/close.svg' %}" role="img" alt="Close" />
+        </button>
+        <ul class="usa-nav__primary usa-accordion">
+          <li class="usa-nav__primary-item">
+            <a href="/" class="usa-nav__link">
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="usa-nav__primary-item">
+            <a href="/about" class="usa-nav__link">
+              <span>About</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  {% endblock %}
+
+  <main id="main-content">
+    {% block content %}
+    <section class="usa-section">
+      <div class="grid-container">
+        <h1>Welcome to the USWDS Django Template</h1>
+        <p class="usa-intro">
+          This template includes reusable USWDS components for building accessible,
+          mobile-friendly government websites.
+        </p>
+
+        {% comment %} Demo Alert Component {% endcomment %}
+        {% component "alert" type="success" heading="Success!" message="This is a demo USWDS alert component built with django-components." %}
+
+      </div>
+    </section>
+    {% endblock %}
+  </main>
+
+  {% block footer %}
+  <footer class="usa-footer">
+    <div class="grid-container usa-footer__return-to-top">
+      <a href="#">Return to top</a>
+    </div>
+    <div class="usa-footer__primary-section">
+      <div class="grid-container">
+        <div class="grid-row grid-gap">
+          <div class="tablet:grid-col-8">
+            <nav class="usa-footer__nav">
+              <ul class="grid-row grid-gap">
+                <li class="mobile-lg:grid-col-6 desktop:grid-col-auto usa-footer__primary-content">
+                  <a class="usa-footer__primary-link" href="/">Home</a>
+                </li>
+                <li class="mobile-lg:grid-col-6 desktop:grid-col-auto usa-footer__primary-content">
+                  <a class="usa-footer__primary-link" href="/about">About</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="usa-footer__secondary-section">
+      <div class="grid-container">
+        <div class="usa-footer__logo grid-row grid-gap-2">
+          <div class="grid-col-auto">
+            <p class="usa-footer__contact-heading">&copy; {% now "Y" %} My Django App. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  {% endblock %}
+
+  <!-- USWDS JavaScript -->
+  <script src="{% static 'uswds/js/uswds-init.min.js' %}"></script>
+  <script src="{% static 'uswds/js/uswds.min.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

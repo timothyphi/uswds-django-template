@@ -13,6 +13,7 @@ from datetime import timedelta, timezone
 from pathlib import Path
 
 from dotenv import load_dotenv
+from django_components import ComponentsSettings, ContextBehavior
 
 
 def create_directory(folderpath: Path) -> None:
@@ -85,6 +86,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_components",
 ]
 
 MIDDLEWARE = [
@@ -111,9 +113,49 @@ TEMPLATES = [  # type: ignore
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "builtins": [
+                "django_components.templatetags.component_tags",
+            ],
         },
     },
 ]
+
+# Django Components Configuration
+defaults = ComponentsSettings(
+    autodiscover=True,
+    cache=None,
+    context_behavior=ContextBehavior.DJANGO.value,  # "django" | "isolated"
+    # Root-level "components" dirs, e.g. `/path/to/proj/components/`
+    dirs=[Path(BASE_DIR) / "components"],
+    # App-level "components" dirs, e.g. `[app]/components/`
+    app_dirs=["components"],
+    debug_highlight_components=False,
+    debug_highlight_slots=False,
+    dynamic_component_name="dynamic",
+    extensions=[],
+    extensions_defaults={},
+    libraries=[],  # E.g. ["mysite.components.forms", ...]
+    multiline_tags=True,
+    reload_on_file_change=False,
+    static_files_allowed=[
+        ".css",
+        ".js", ".jsx", ".ts", ".tsx",
+        # Images
+        ".apng", ".png", ".avif", ".gif", ".jpg",
+        ".jpeg", ".jfif", ".pjpeg", ".pjp", ".svg",
+        ".webp", ".bmp", ".ico", ".cur", ".tif", ".tiff",
+        # Fonts
+        ".eot", ".ttf", ".woff", ".otf", ".svg",
+    ],
+    static_files_forbidden=[
+        # See https://marketplace.visualstudio.com/items?itemName=junstyle.vscode-django-support
+        ".html", ".django", ".dj", ".tpl",
+        # Python files
+        ".py", ".pyc",
+    ],
+    tag_formatter="django_components.component_formatter",
+    template_cache_size=128,
+)
 
 WSGI_APPLICATION = "django_project.wsgi.application"
 

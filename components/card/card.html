@@ -1,0 +1,26 @@
+<li class="usa-card{% if flag %} usa-card--flag{% endif %} tablet:grid-col-4">
+  <div class="usa-card__container">
+    {% if media_url %}
+    <div class="usa-card__header">
+      <h3 class="usa-card__heading">{{ title }}</h3>
+    </div>
+    <div class="usa-card__media">
+      <div class="usa-card__img">
+        <img src="{{ media_url }}" alt="{{ media_alt }}" />
+      </div>
+    </div>
+    {% else %}
+    <div class="usa-card__header">
+      <h3 class="usa-card__heading">{{ title }}</h3>
+    </div>
+    {% endif %}
+    <div class="usa-card__body">
+      <p>{{ description }}</p>
+    </div>
+    {% if link_url %}
+    <div class="usa-card__footer">
+      <a href="{{ link_url }}" class="usa-button">{{ link_text }}</a>
+    </div>
+    {% endif %}
+  </div>
+</li>

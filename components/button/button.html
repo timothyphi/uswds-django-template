@@ -1,0 +1,9 @@
+{% if url %}
+<a href="{{ url }}" class="usa-button{% if type != 'default' %} usa-button--{{ type }}{% endif %}{% if size == 'big' %} usa-button--big{% endif %}">
+  {{ text }}
+</a>
+{% else %}
+<button type="{% if submit %}submit{% else %}button{% endif %}" class="usa-button{% if type != 'default' %} usa-button--{{ type }}{% endif %}{% if size == 'big' %} usa-button--big{% endif %}">
+  {{ text }}
+</button>
+{% endif %}
