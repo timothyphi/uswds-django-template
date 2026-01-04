@@ -84,7 +84,12 @@ RUN python server/manage.py collectstatic --noinput
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:8080/health || exit 1
+  CMD curl -f http://localhost:8080/ || exit 1
+
+# Create symbolic links to redirect Apache logs to stdout/stderr for Docker logging
+RUN ln -sf /dev/stdout /var/log/httpd/access_log && \
+    ln -sf /dev/stderr /var/log/httpd/error_log
 
 # Run Apache in foreground
+# Note: Migrations and superuser creation handled by docker-compose command
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]

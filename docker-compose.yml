@@ -69,6 +69,8 @@ services:
       sh -c "
         echo 'Running migrations...' &&
         python server/manage.py migrate &&
+        echo 'Creating superuser if none exists...' &&
+        python server/manage.py create_superuser_if_none_exists &&
         echo 'Starting Django server...' &&
         python server/manage.py runserver 0.0.0.0:8000
       "
@@ -106,6 +108,17 @@ services:
         condition: service_healthy
     networks:
       - uswds-network
+    command: >
+      sh -c "
+        echo 'Running migrations...' &&
+        python server/manage.py migrate &&
+        echo 'Creating superuser if none exists...' &&
+        python server/manage.py create_superuser_if_none_exists &&
+        echo 'Collecting static files...' &&
+        python server/manage.py collectstatic --noinput &&
+        echo 'Starting Apache server...' &&
+        /usr/sbin/httpd -D FOREGROUND
+      "
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 30s
