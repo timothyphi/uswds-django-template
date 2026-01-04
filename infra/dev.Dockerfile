@@ -35,6 +35,11 @@ RUN pip install --upgrade pip && \
 # Copy application code
 COPY . /app/
 
+# Create logs directory and set proper permissions
+RUN mkdir -p /app/logs && \
+    chown -R 1001:0 /app/logs && \
+    chmod -R g=u /app/logs
+
 # Switch to non-root user for security
 USER 1001
 

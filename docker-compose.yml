@@ -15,7 +15,7 @@ services:
     networks:
       - uswds-network
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '$${DB_PASS:-YourStrong@Password123}' -C -Q 'SELECT 1'"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P '${DB_PASS:-YourStrong@Password123}' -C -Q 'SELECT 1'"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -67,12 +67,6 @@ services:
       - uswds-network
     command: >
       sh -c "
-        echo 'Waiting for database...' &&
-        until /opt/mssql-tools18/bin/sqlcmd -S mssql -U $${DB_USER:-SA} -P '$${DB_PASS:-YourStrong@Password123}' -C -Q 'SELECT 1' > /dev/null 2>&1; do
-          echo 'Database not ready, waiting...'
-          sleep 2
-        done &&
-        echo 'Database is ready!' &&
         echo 'Running migrations...' &&
         python server/manage.py migrate &&
         echo 'Starting Django server...' &&

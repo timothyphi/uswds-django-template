@@ -66,13 +66,13 @@ The project includes a docker-compose setup with support for both development an
 **Development mode** (Django dev server on port 8000):
 
 ```shell
-docker-compose --profile dev up
+docker compose --profile dev up
 ```
 
 **Production mode** (Apache HTTP Server on port 8080):
 
 ```shell
-docker-compose --profile prod up
+docker compose --profile prod up
 ```
 
 Both modes include:
@@ -85,17 +85,17 @@ Both modes include:
 To rebuild containers:
 
 ```shell
-docker-compose --profile dev up --build
+docker compose --profile dev up --build
 # or
-docker-compose --profile prod up --build
+docker compose --profile prod up --build
 ```
 
 To stop and remove containers:
 
 ```shell
-docker-compose --profile dev down
+docker compose --profile dev down
 # or
-docker-compose --profile prod down
+docker compose --profile prod down
 ```
 
 ### Optional: Run accessibility check
@@ -131,7 +131,7 @@ The production setup uses Docker Compose with Apache HTTP Server serving the Dja
 Run the production stack:
 
 ```shell
-docker-compose --profile prod up -d
+docker compose --profile prod up -d
 ```
 
 The application will be available at <http://localhost:8080>

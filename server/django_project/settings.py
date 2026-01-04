@@ -249,15 +249,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ################################################################################
 
 
-LOG_FILE_PATH = Path(BASE_DIR / get_env("LOG_FILE_PATH", "logs/django.log")).resolve()
-create_directory(LOG_FILE_PATH.parent)
-LOG_FILE_PATH.parent.resolve(strict=True)
-
 LOG_FORMATTER = get_env("LOG_FORMATTER", "simple")
-
-# If we output JSON, we want the file extension to reflect JSON Lines (.jsonl)
-if LOG_FORMATTER == "json" and LOG_FILE_PATH.suffix != ".jsonl":
-    LOG_FILE_PATH = LOG_FILE_PATH.parent / Path(LOG_FILE_PATH.name + ".jsonl")  # type: ignore
 
 LOGGING = {  # type: ignore
     "version": 1,
@@ -287,19 +279,11 @@ LOGGING = {  # type: ignore
     "handlers": {
         "stdout": {
             "class": "logging.StreamHandler",
-            "formatter": "simple",
+            "formatter": LOG_FORMATTER,
             "stream": "ext://sys.stdout",
         },
-        "file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "DEBUG",
-            "formatter": LOG_FORMATTER,
-            "filename": LOG_FILE_PATH,
-            "maxBytes": get_env_int("LOG_FILE_SIZE", 10485760),  # 10MB default
-            "backupCount": get_env_int("LOG_FILE_ROTATION", 5),
-        },
     },
-    "loggers": {"root": {"level": get_env("LOG_LEVEL", "INFO"), "handlers": ["stdout", "file"]}},
+    "loggers": {"root": {"level": get_env("LOG_LEVEL", "INFO"), "handlers": ["stdout"]}},
 }
 
 

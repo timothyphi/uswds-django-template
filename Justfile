@@ -67,31 +67,31 @@ django-superuser:
 
 # Build development Docker images
 docker-dev-build:
-    docker-compose --profile dev build
+    docker compose --profile dev build
 
 # Stop and remove development containers
 docker-dev-down:
-    docker-compose --profile dev down
+    docker compose --profile dev down
 
 # Stop and remove development containers with volumes
 docker-dev-down-volumes:
-    docker-compose --profile dev down -v
+    docker compose --profile dev down -v
 
 # View development container logs (specify service: django, mssql, redis, or leave empty for all)
 docker-dev-logs service="":
-    docker-compose --profile dev logs -f {{service}}
+    docker compose --profile dev logs -f {{service}}
 
 # Rebuild and start development environment
 docker-dev-rebuild:
-    docker-compose --profile dev up --build
+    docker compose --profile dev up --build
 
 # Restart development containers
 docker-dev-restart:
-    docker-compose --profile dev restart
+    docker compose --profile dev restart
 
 # Start development environment in detached mode
 docker-dev-up:
-    docker-compose --profile dev up -d
+    docker compose --profile dev up -d
 
 # =============================================================================
 # Docker - Production Profile
@@ -99,31 +99,31 @@ docker-dev-up:
 
 # Build production Docker images
 docker-prod-build:
-    docker-compose --profile prod build
+    docker compose --profile prod build
 
 # Stop and remove production containers
 docker-prod-down:
-    docker-compose --profile prod down
+    docker compose --profile prod down
 
 # Stop and remove production containers with volumes
 docker-prod-down-volumes:
-    docker-compose --profile prod down -v
+    docker compose --profile prod down -v
 
 # View production container logs (specify service: django, mssql, redis, or leave empty for all)
 docker-prod-logs service="":
-    docker-compose --profile prod logs -f {{service}}
+    docker compose --profile prod logs -f {{service}}
 
 # Rebuild and start production environment
 docker-prod-rebuild:
-    docker-compose --profile prod up --build
+    docker compose --profile prod up --build
 
 # Restart production containers
 docker-prod-restart:
-    docker-compose --profile prod restart
+    docker compose --profile prod restart
 
 # Start production environment in detached mode
 docker-prod-up:
-    docker-compose --profile prod up -d
+    docker compose --profile prod up -d
 
 # =============================================================================
 # Docker - Utilities
@@ -139,7 +139,7 @@ docker-exec-prod cmd:
 
 # Show Docker container status
 docker-ps:
-    docker-compose ps
+    docker compose ps
 
 # Prune unused Docker resources
 docker-prune:
@@ -147,7 +147,7 @@ docker-prune:
 
 # View all Docker Compose logs
 docker-logs:
-    docker-compose logs -f
+    docker compose logs -f
 
 # =============================================================================
 # Environment Setup

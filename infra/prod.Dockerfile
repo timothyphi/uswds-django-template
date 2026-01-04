@@ -53,6 +53,11 @@ RUN mod_wsgi-express module-config > /etc/httpd/conf.modules.d/02-wsgi.conf
 # Copy Apache configuration
 COPY infra/apache-config.conf /etc/httpd/conf.d/django.conf
 
+# Create logs directory and set proper permissions
+RUN mkdir -p /app/logs && \
+    chown -R 1001:0 /app/logs && \
+    chmod -R g=u /app/logs
+
 # Set proper permissions for Apache
 RUN chown -R 1001:0 /app && \
     chmod -R g=u /app && \
