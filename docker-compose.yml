@@ -101,6 +101,7 @@ services:
       - REDIS_URL=redis://redis:6379/${REDIS_DB:-0}
       - MODE=prod
       - DEBUG=False
+      - SECRET_KEY=${SECRET_KEY}
     depends_on:
       mssql:
         condition: service_healthy

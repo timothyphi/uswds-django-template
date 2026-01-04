@@ -2,17 +2,13 @@
 # Use Red Hat Universal Base Image 9 with Python 3.11
 FROM registry.access.redhat.com/ubi9/python-311:latest
 
-# Build argument for SECRET_KEY
-ARG SECRET_KEY
-
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     MODE=prod \
-    DEBUG=False \
-    SECRET_KEY=${SECRET_KEY}
+    DEBUG=False
 
 # Set working directory
 WORKDIR /app

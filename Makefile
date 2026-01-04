@@ -427,7 +427,7 @@ quality:
 	@echo "Checking code formatting..."
 	.venv/bin/ruff format --check server/
 	@echo ""
-	@echo "✓ All quality checks passed!"
+	@echo "DONE: All quality checks passed!"
 
 # =============================================================================
 # Testing & Quality
@@ -470,7 +470,7 @@ clean-python:
 # Clean Node.js artifacts
 clean-node:
 	rm -rf node_modules/
-	@echo "✓ Cleaned Node.js artifacts"
+	@echo "DONE: Cleaned Node.js artifacts"
 
 # Clean Python virtual environment
 clean-venv:
