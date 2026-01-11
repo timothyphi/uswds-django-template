@@ -55,6 +55,7 @@
 .PHONY: install
 .PHONY: install-node
 .PHONY: install-python
+.PHONY: install-python-uv
 .PHONY: install-dev
 .PHONY: setup
 
@@ -137,6 +138,7 @@ help:
 	@echo "    install                 - Install all dependencies (Python + Node.js)"
 	@echo "    install-node            - Install Node.js dependencies"
 	@echo "    install-python          - Install Python dependencies in virtual environment"
+	@echo "    install-python-uv       - Install Python dependencies in virtual environment according to .python-version"
 	@echo "    install-dev             - Install Python dev dependencies (Ruff, coverage, etc.)"
 	@echo "    setup                   - Complete initial setup (install deps + setup env + build)"
 	@echo ""
@@ -364,13 +366,26 @@ install-node:
 
 # Install Python dependencies in virtual environment
 install-python:
+	@echo "creating venv with..."
+	which python3
+	@echo "with version..."
+	python3 --version
 	python3 -m venv .venv
-	.venv/bin/pip install --upgrade pip
-	.venv/bin/pip install -r requirements.txt
+	.venv/bin/python -m ensurepip --upgrade --default-pip
+	.venv/bin/python -m pip install --upgrade pip
+	.venv/bin/python -m pip install -r requirements.txt
+
+# Install Python dependencies in virtual environment according to the .python-version
+install-python-uv:
+	uv venv
+	@echo "using version $(.venv/bin/python --version)"
+	.venv/bin/python -m ensurepip --upgrade --default-pip
+	.venv/bin/python -m pip install --upgrade pip
+	.venv/bin/python -m pip install -r requirements.txt
 
 # Install Python dev dependencies (Ruff, coverage, etc.)
 install-dev:
-	.venv/bin/pip install ruff coverage
+	.venv/bin/python -m pip install ruff coverage
 
 # Complete initial setup (install deps + setup env + build)
 setup: install env-setup build
@@ -387,8 +402,8 @@ ifndef PACKAGE
 	@echo "Error: PACKAGE is required. Usage: make python-add-pip PACKAGE=django"
 	@exit 1
 endif
-	.venv/bin/pip install $(PACKAGE)
-	.venv/bin/pip freeze > requirements.txt
+	.venv/bin/python -m pip install $(PACKAGE)
+	.venv/bin/python -m pip freeze > requirements.txt
 	@echo "DONE: Added $(PACKAGE) and updated requirements.txt"
 
 # Add a Python package using uv and update requirements.txt
