@@ -358,7 +358,7 @@ env-setup:
 # =============================================================================
 
 # Install all dependencies (Python + Node.js)
-install: install-python install-node install-dev
+install: install-python-uv install-node install-dev
 
 # Install Node.js dependencies
 install-node:

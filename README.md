@@ -2,123 +2,95 @@
 
 A project template utilizing Django (python) as the backend server, SASS for the organizing stylesheets with USWDS as a starter design system.
 
-## Developer (System) Requirements
+## Developer Requirements
 
-These aren't actually hard requirements, just what's on my machine
-
-- node v23.10.0
-- npm v11.2.0
-- python v3.11
-
-Also tested on these version of `node` and `npm`
-
-- node v20.19.2
-- npm v10.8.2
+- [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) - for managing Node.js versions
+- [uv](https://github.com/astral-sh/uv) (Python package installer) - for managing Python environments
 
 ## Production Requirements
 
-- python v3.11
+- Python v3.11
 
-## Setup for Development
+## Setup for Local Development
 
-### Step 1. Install Python dependencies
+### Quick Start (Recommended)
 
-```shell
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-### Step 2. Install JavaScript dependencies
+The following commands are equivalent and will install all dependencies, setup your environment, and build assets:
 
 ```shell
-npm install
+make setup
 ```
 
-### Step 3. Setup Environment File
+This single command installs all dependencies, sets up your environment, and builds assets.
+
+**OR** run the individual steps:
 
 ```shell
-cp sample.env .env
+make install-python-uv  # Create venv and install Python dependencies (uses uv)
+make install-node       # Install Node.js dependencies
+make env-setup          # Copy sample.env to .env
+make build              # Build SCSS to CSS
 ```
 
-Fill out the `.env` file with your configuration values. The file will be automatically loaded by Docker Compose or the application.
+After setup, edit `.env` with your configuration values.
 
-### Step 4. Do one-time build
+### Run Development Servers
+
+Open two terminal windows and run:
 
 ```shell
-npm run build
+# Terminal 1 - Django development server
+make dev-server
+
+# Terminal 2 - Watch and compile SCSS on changes
+make dev-watch-scss
 ```
 
-### Step 5. Run tools in development
+Your Django application will be running at <http://localhost:8000>.
 
-```shell
-npm run server # Watches `server` directory, triggers rebuild on change
-npm run scss   # Watches `styles` directory, triggers rebuild on change
-```
+### Docker Compose (Alternative)
 
-Check the `package.json` for more developer scripts.
-
-### Step 6. Run using Docker Compose
-
-The project includes a docker-compose setup with support for both development and production environments.
+You can also run the full stack using Docker Compose, which includes Django, Microsoft SQL Server, and Redis:
 
 **Development mode** (Django dev server on port 8000):
 
 ```shell
-docker compose --profile dev up
+make docker-dev-up
 ```
 
 **Production mode** (Apache HTTP Server on port 8080):
 
 ```shell
-docker compose --profile prod up
+make docker-prod-up
 ```
 
-Both modes include:
-
-- Microsoft SQL Server (port 1433)
-- Redis cache (port 6379)
-- Automatic database migrations
-- Health checks for all services
-
-To rebuild containers:
+To stop containers:
 
 ```shell
-docker compose --profile dev up --build
-# or
-docker compose --profile prod up --build
+make docker-dev-down   # or make docker-prod-down
 ```
 
-To stop and remove containers:
+To rebuild:
 
 ```shell
-docker compose --profile dev down
-# or
-docker compose --profile prod down
+make docker-dev-rebuild   # or make docker-prod-rebuild
 ```
 
-### Optional: Run accessibility check
+See `make help` for all available commands.
 
-Set in `package.json` to run on <http://localhost:8000/> for example.
+## Adding Python Dependencies
+
+Use the `make` commands to add packages and automatically update `requirements.txt`:
 
 ```shell
-npm run acheck -- http://localhost:8000
+make python-add-uv PACKAGE=package-name    # Using uv (recommended)
+make python-add-pip PACKAGE=package-name   # Using pip (alternative)
 ```
 
-[Accessibility check package link](https://www.npmjs.com/package/accessibility-checker#Configuration) for more information.
-
-## Don't forget to generate requirements.txt after adding new Python dependencies
-
-Using `pip freeze`:
+Manual update using `uv pip`:
 
 ```shell
-pip freeze > requirements.txt
-```
-
-Using `uv pip`:
-
-```shell
+uv pip install package-name
 uv pip freeze > requirements.txt
 ```
 
