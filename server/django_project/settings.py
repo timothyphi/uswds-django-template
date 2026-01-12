@@ -74,9 +74,9 @@ DEBUG = get_env_bool("DEBUG", default=(MODE != "prod"))
 ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", [CONFIG_HOST])
 
 
-################################################################################
+###############################################################################
 # Application definition
-################################################################################
+###############################################################################
 
 
 INSTALLED_APPS = [
@@ -149,9 +149,7 @@ defaults = ComponentsSettings(
         ".eot", ".ttf", ".woff", ".otf", ".svg",
     ],
     static_files_forbidden=[
-        # See https://marketplace.visualstudio.com/items?itemName=junstyle.vscode-django-support
         ".html", ".django", ".dj", ".tpl",
-        # Python files
         ".py", ".pyc",
     ],
     tag_formatter="django_components.component_formatter",
@@ -178,7 +176,6 @@ REDIS_HOST = get_env("REDIS_HOST", "localhost")
 REDIS_PORT = get_env_int("REDIS_PORT", 6379)
 REDIS_DB = get_env_int("REDIS_DB", 0)
 
-# Database configuration - use SQL Server if credentials are provided, otherwise SQLite
 if DB_HOST and DB_NAME and DB_USER and DB_PASS:
     DATABASES = {  # type: ignore
         "default": {
@@ -249,10 +246,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-################################################################################
+###############################################################################
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
-################################################################################
+###############################################################################
 
 
 LANGUAGE_CODE = "en-us"
@@ -267,10 +264,10 @@ UTC_OFFSET = timedelta(hours=get_env_int("UTC_OFFSET", -5))  # Washington D.C.
 LOCAL_TIMEZONE = timezone(UTC_OFFSET)
 
 
-################################################################################
+###############################################################################
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-################################################################################
+###############################################################################
 
 
 STATIC_ROOT = BASE_DIR / "staticfiles/"
@@ -287,9 +284,9 @@ STATICFILES_DIRS = [BASE_DIR / "public"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-################################################################################
+###############################################################################
 # Logging
-################################################################################
+###############################################################################
 
 
 LOG_FORMATTER = get_env("LOG_FORMATTER", "simple")
@@ -330,9 +327,9 @@ LOGGING = {  # type: ignore
 }
 
 
-################################################################################
+###############################################################################
 # Main
-################################################################################
+###############################################################################
 
 
 def main() -> int:

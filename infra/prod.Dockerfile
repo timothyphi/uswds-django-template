@@ -2,13 +2,17 @@
 # Use Red Hat Universal Base Image 9 with Python 3.11
 FROM registry.access.redhat.com/ubi9/python-311:latest
 
+# Build argument for SECRET_KEY
+ARG SECRET_KEY
+
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     MODE=prod \
-    DEBUG=False
+    DEBUG=False \
+    SECRET_KEY=${SECRET_KEY}
 
 # Set working directory
 WORKDIR /app
@@ -80,7 +84,7 @@ RUN python server/manage.py collectstatic --noinput
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD curl -f http://localhost:8080/ || exit 1
+  CMD curl -f http://localhost:8080/health/ || exit 1
 
 # Create symbolic links to redirect Apache logs to stdout/stderr for Docker logging
 RUN ln -sf /dev/stdout /var/log/httpd/access_log && \
