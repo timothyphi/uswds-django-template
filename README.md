@@ -1,6 +1,6 @@
 # uswds-django-template
 
-A project template utilizing Django (python) as the backend server, SASS for the organizing stylesheets with USWDS as a starter design system.
+A project template utilizing Django web framework, SASS for the organizing stylesheets with USWDS as a starter design system.
 
 ## Developer Requirements
 
