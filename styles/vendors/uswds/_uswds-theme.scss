@@ -2,17 +2,22 @@
 ----------------------------------------
 USWDS with settings overrides
 ----------------------------------------
-Uncomment the following lines and add a list of changed settings
-in the form $setting: value,
-----------------------------------------
+Add settings overrides in the form $setting: value,
 
 https://designsystem.digital.gov/documentation/settings/#general-settings-2
 
+Example:
+@use "uswds-core" with (
+  $theme-color-primary: "blue-60",
+  $theme-font-size-sm: "xs"
+);
+----------------------------------------
 */
 
-//
-//  @use "uswds-core" with (
-//    $setting: value,
-//    $setting: value
-//  );
-//
+@use "uswds-core" with (
+  // Enable responsive breakpoints for grid utilities
+  $theme-utility-breakpoints: (
+    "tablet-lg": true,
+    "widescreen": true,
+  ),
+);

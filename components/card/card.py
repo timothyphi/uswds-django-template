@@ -20,6 +20,7 @@ class Card(Component):
     """
 
     template_name = "card/card.html"
+    tag = ""  # No wrapper element - card template already has <li> tag
 
     def get_context_data(
         self,
