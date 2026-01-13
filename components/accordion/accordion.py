@@ -15,23 +15,21 @@ class Accordion(Component):
         id_prefix (str): Prefix for accordion IDs to avoid conflicts (default: "accordion")
 
     Usage:
+
         {% component "accordion"
           items=accordion_items
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "accordion"
           items=accordion_items
           bordered=True
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "accordion"
           items=accordion_items
           multiselectable=True
           id_prefix="custom-accordion"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
     Example items structure in view:
         accordion_items = [

@@ -17,31 +17,29 @@ class Button(Component):
         submit (bool): If True, renders as submit button (default: False)
 
     Usage:
+
         {% component "button"
           text="Click me"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "button"
           text="Submit Form"
           type="primary"
           submit=True
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "button"
           text="Learn More"
           type="outline"
           url="/about"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "button"
           text="Big Primary Button"
           type="primary"
           size="big"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
+
     """
 
     template_name = "button/button.html"

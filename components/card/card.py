@@ -32,24 +32,21 @@ class Card(Component):
         {% component "card"
           title="Card Title"
           description="Card description text"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "card"
           title="Card with Link"
           description="This card has a footer link"
           link_url="/details"
           link_text="Learn more"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "card"
           title="Card with Media"
           description="This card includes an image"
           media_url="/static/img/example.jpg"
           media_alt="Example image"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "card"
           title="Flag Layout Card"
@@ -58,8 +55,7 @@ class Card(Component):
           media_url="/static/img/example.jpg"
           link_url="#"
           link_text="Visit"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "card"
           title="Responsive Grid Card"
@@ -67,8 +63,8 @@ class Card(Component):
           grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
           link_url="#"
           link_text="Read more"
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
+
     """
 
     template_name = "card/card.html"

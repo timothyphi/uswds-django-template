@@ -13,9 +13,7 @@ class Banner(Component):
         None - This component takes no parameters
 
     Usage:
-        {% component "banner" %}
-          Official Government Banner
-        {% endcomponent %}
+        {% component "banner" %}Official Government Banner{% endcomponent %}
 
     Note:
         The banner content is typically provided in the template between the opening

@@ -15,26 +15,25 @@ class Alert(Component):
         slim (bool): If True, displays a compact version without icon (default: False)
 
     Usage:
+
         {% component "alert"
           type="success"
           heading="Success!"
           message="Operation completed successfully."
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "alert"
           type="error"
           heading="Error"
           message="An error occurred while processing your request."
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
 
         {% component "alert"
           type="info"
           message="This is a slim info alert without a heading."
           slim=True
-        %}
-        {% endcomponent %}
+        %}{% endcomponent %}
+
     """
 
     template_name = "alert/alert.html"
