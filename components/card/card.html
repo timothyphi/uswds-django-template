@@ -1,27 +1,29 @@
-<div class="usa-card__container">
-  {% if header_first or not media_url %}
-  <div class="usa-card__header">
-    <h4 class="usa-card__heading">{{ title }}</h4>
-  </div>
-  {% endif %}
-  {% if media_url %}
-  <div class="usa-card__media{% if media_inset %} usa-card__media--inset{% endif %}{% if media_exdent %} usa-card__media--exdent{% endif %}">
-    <div class="usa-card__img">
-      <img src="{{ media_url }}" alt="{{ media_alt }}" />
+<div class="usa-card">
+  <div class="usa-card__container">
+    {% if header_first or not media_url %}
+    <div class="usa-card__header">
+      <h4 class="usa-card__heading">{{ title }}</h4>
     </div>
+    {% endif %}
+    {% if media_url %}
+    <div class="usa-card__media{% if media_inset %} usa-card__media--inset{% endif %}{% if media_exdent %} usa-card__media--exdent{% endif %}">
+      <div class="usa-card__img">
+        <img src="{{ media_url }}" alt="{{ media_alt }}" />
+      </div>
+    </div>
+    {% endif %}
+    {% if not header_first and media_url %}
+    <div class="usa-card__header">
+      <h4 class="usa-card__heading">{{ title }}</h4>
+    </div>
+    {% endif %}
+    <div class="usa-card__body">
+      <p>{{ description }}</p>
+    </div>
+    {% if link_url %}
+    <div class="usa-card__footer">
+      <a href="{{ link_url }}" class="usa-button">{{ link_text }}</a>
+    </div>
+    {% endif %}
   </div>
-  {% endif %}
-  {% if not header_first and media_url %}
-  <div class="usa-card__header">
-    <h4 class="usa-card__heading">{{ title }}</h4>
-  </div>
-  {% endif %}
-  <div class="usa-card__body">
-    <p>{{ description }}</p>
-  </div>
-  {% if link_url %}
-  <div class="usa-card__footer">
-    <a href="{{ link_url }}" class="usa-button">{{ link_text }}</a>
-  </div>
-  {% endif %}
 </div>
