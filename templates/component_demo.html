@@ -21,23 +21,43 @@
     </p>
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Success Alert</h3>
-    {% component "alert" type="success" heading="Success status" message="This is a success alert with a heading." %}
+    {% component "alert"
+      type="success"
+      heading="Success status"
+      message="This is a success alert with a heading."
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Warning Alert</h3>
-    {% component "alert" type="warning" heading="Warning status" message="This is a warning alert with a heading." %}
+    {% component "alert"
+      type="warning"
+      heading="Warning status"
+      message="This is a warning alert with a heading."
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Error Alert</h3>
-    {% component "alert" type="error" heading="Error status" message="This is an error alert with a heading." %}
+    {% component "alert"
+      type="error"
+      heading="Error status"
+      message="This is an error alert with a heading."
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Info Alert</h3>
-    {% component "alert" type="info" heading="Informative status" message="This is an info alert with a heading." %}
+    {% component "alert"
+      type="info"
+      heading="Informative status"
+      message="This is an info alert with a heading."
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Slim Alert (No Heading)</h3>
-    {% component "alert" type="info" message="This is a slim info alert without a heading." slim=True %}
+    {% component "alert"
+      type="info"
+      message="This is a slim info alert without a heading."
+      slim=True
+    %}
     {% endcomponent %}
 
     <hr class="margin-y-6">
@@ -50,39 +70,75 @@
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Button Types</h3>
     <div class="display-flex flex-wrap gap-2">
-      {% component "button" text="Default Button" type="default" %}
+      {% component "button"
+        text="Default Button"
+        type="default"
+      %}
       {% endcomponent %}
-      {% component "button" text="Primary Button" type="primary" %}
+      {% component "button"
+        text="Primary Button"
+        type="primary"
+      %}
       {% endcomponent %}
-      {% component "button" text="Secondary Button" type="secondary" %}
+      {% component "button"
+        text="Secondary Button"
+        type="secondary"
+      %}
       {% endcomponent %}
-      {% component "button" text="Accent Cool Button" type="accent-cool" %}
+      {% component "button"
+        text="Accent Cool Button"
+        type="accent-cool"
+      %}
       {% endcomponent %}
-      {% component "button" text="Base Button" type="base" %}
+      {% component "button"
+        text="Base Button"
+        type="base"
+      %}
       {% endcomponent %}
     </div>
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Outline Buttons</h3>
     <div class="display-flex flex-wrap gap-2">
-      {% component "button" text="Outline Button" type="outline" %}
+      {% component "button"
+        text="Outline Button"
+        type="outline"
+      %}
       {% endcomponent %}
-      {% component "button" text="Outline Inverse" type="outline inverse" %}
+      {% component "button"
+        text="Outline Inverse"
+        type="outline inverse"
+      %}
       {% endcomponent %}
     </div>
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Button Sizes</h3>
     <div class="display-flex flex-wrap gap-2">
-      {% component "button" text="Big Button" type="primary" size="big" %}
+      {% component "button"
+        text="Big Button"
+        type="primary"
+        size="big"
+      %}
       {% endcomponent %}
-      {% component "button" text="Normal Button" type="primary" %}
+      {% component "button"
+        text="Normal Button"
+        type="primary"
+      %}
       {% endcomponent %}
     </div>
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Link Buttons</h3>
     <div class="display-flex flex-wrap gap-2">
-      {% component "button" text="Visit Home" type="primary" url="/" %}
+      {% component "button"
+        text="Visit Home"
+        type="primary"
+        url="/"
+      %}
       {% endcomponent %}
-      {% component "button" text="Health Check" type="secondary" url="/health/" %}
+      {% component "button"
+        text="Health Check"
+        type="secondary"
+        url="/health/"
+      %}
       {% endcomponent %}
     </div>
 
@@ -99,11 +155,58 @@
       This grid demonstrates different card styles working together. The grid automatically adjusts from 1 column on mobile, to 2 columns on tablet (640px+), to 3 columns on larger screens (880px+).
     </p>
     <ul class="usa-card-group">
-      {% component "card" title="Basic Card (no media)" description="This is a basic card without any media. It only contains a header, body text, and an optional footer with a call-to-action button." link_url="#" link_text="Visit Florida Keys" grid_col="tablet:grid-col-6 tablet-lg:grid-col-4" %}{% endcomponent %}
-      {% component "card" title="Card with Media" description="This card includes media positioned below the header. The image spans the full width of the card by default." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" grid_col="tablet:grid-col-6 tablet-lg:grid-col-4" %}{% endcomponent %}
-      {% component "card" title="Header First + Exdent Media" description="Using header_first=True displays the header before the media. The media_exdent=True extends the media element out over the card border." header_first=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_exdent=True link_url="#" link_text="Visit Florida Keys" grid_col="tablet:grid-col-6 tablet-lg:grid-col-4" %}{% endcomponent %}
-      {% component "card" title="Inset Media" description="The media_inset=True variant indents the media element so it doesn't extend to the edge of the card, creating padding around the image." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_inset=True link_url="#" link_text="Visit Florida Keys" grid_col="tablet:grid-col-6 tablet-lg:grid-col-4" %}{% endcomponent %}
-      {% component "card" title="Exdent Media" description="The media_exdent=True variant extends the media element out over the card border. Useful for light-bordered cards." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_exdent=True link_url="#" link_text="Visit Florida Keys" grid_col="tablet:grid-col-6 tablet-lg:grid-col-4" %}{% endcomponent %}
+      {% component "card"
+        title="Basic Card (no media)"
+        description="This is a basic card without any media. It only contains a header, body text, and an optional footer with a call-to-action button."
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
+      %}
+      {% endcomponent %}
+      {% component "card"
+        title="Card with Media"
+        description="This card includes media positioned below the header. The image spans the full width of the card by default."
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
+      %}
+      {% endcomponent %}
+      {% component "card"
+        title="Header First + Exdent Media"
+        description="Using header_first=True displays the header before the media. The media_exdent=True extends the media element out over the card border."
+        header_first=True
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        media_exdent=True
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
+      %}
+      {% endcomponent %}
+      {% component "card"
+        title="Inset Media"
+        description="The media_inset=True variant indents the media element so it doesn't extend to the edge of the card, creating padding around the image."
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        media_inset=True
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
+      %}
+      {% endcomponent %}
+      {% component "card"
+        title="Exdent Media"
+        description="The media_exdent=True variant extends the media element out over the card border. Useful for light-bordered cards."
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        media_exdent=True
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
+      %}
+      {% endcomponent %}
     </ul>
 
     <h3 class="font-body-lg text-bold margin-top-6 margin-bottom-2">Flag Layout Cards</h3>
@@ -111,8 +214,30 @@
       Flag cards display in a horizontal layout with media positioned to the left or right, perfect for feature lists or highlighted content.
     </p>
     <ul class="usa-card-group">
-      {% component "card" title="Default Flag Layout" description="Using flag=True creates a horizontal card layout with media on the left side. This is useful for lists or featured content." flag=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" grid_col="flex-1" %}{% endcomponent %}
-      {% component "card" title="Flag: Media Right + Inset" description="Combining flag=True with media_right=True positions the media on the right. Adding media_inset=True indents the image." flag=True media_right=True media_inset=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" grid_col="flex-1" %}{% endcomponent %}
+      {% component "card"
+        title="Default Flag Layout"
+        description="Using flag=True creates a horizontal card layout with media on the left side. This is useful for lists or featured content."
+        flag=True
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="flex-1"
+      %}
+      {% endcomponent %}
+      {% component "card"
+        title="Flag: Media Right + Inset"
+        description="Combining flag=True with media_right=True positions the media on the right. Adding media_inset=True indents the image."
+        flag=True
+        media_right=True
+        media_inset=True
+        media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
+        media_alt="A placeholder image"
+        link_url="#"
+        link_text="Visit Florida Keys"
+        grid_col="flex-1"
+      %}
+      {% endcomponent %}
     </ul>
 
     <hr class="margin-y-6">
@@ -124,16 +249,26 @@
     </p>
 
     <h3 class="font-body-md text-bold margin-top-3 margin-bottom-2">Standard Accordion</h3>
-    {% component "accordion" items=accordion_items %}
+    {% component "accordion"
+      items=accordion_items
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-4 margin-bottom-2">Bordered Accordion</h3>
-    {% component "accordion" items=accordion_items bordered=True id_prefix="accordion-bordered" %}
+    {% component "accordion"
+      items=accordion_items
+      bordered=True
+      id_prefix="accordion-bordered"
+    %}
     {% endcomponent %}
 
     <h3 class="font-body-md text-bold margin-top-4 margin-bottom-2">Multi-Selectable Accordion</h3>
     <p class="text-base-dark margin-bottom-2">This accordion allows multiple sections to be open simultaneously.</p>
-    {% component "accordion" items=accordion_items multiselectable=True id_prefix="accordion-multi" %}
+    {% component "accordion"
+      items=accordion_items
+      multiselectable=True
+      id_prefix="accordion-multi"
+    %}
     {% endcomponent %}
 
     <hr class="margin-y-6">

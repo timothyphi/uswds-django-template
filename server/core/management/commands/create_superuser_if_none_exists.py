@@ -32,27 +32,14 @@ class Command(BaseCommand):
         if not password:
             self.stdout.write(
                 self.style.ERROR(
-                    "ADMIN_PASSWORD environment variable is not set. "
-                    "Cannot create superuser."
+                    "ADMIN_PASSWORD environment variable is not set. Cannot create superuser."
                 )
             )
             return
 
         try:
             # Create the superuser
-            User.objects.create_superuser(
-                username=username,
-                email=email,
-                password=password
-            )
-            self.stdout.write(
-                self.style.SUCCESS(
-                    f"Superuser '{username}' created successfully!"
-                )
-            )
+            User.objects.create_superuser(username=username, email=email, password=password)
+            self.stdout.write(self.style.SUCCESS(f"Superuser '{username}' created successfully!"))
         except Exception as e:
-            self.stdout.write(
-                self.style.ERROR(
-                    f"Error creating superuser: {str(e)}"
-                )
-            )
+            self.stdout.write(self.style.ERROR(f"Error creating superuser: {str(e)}"))
