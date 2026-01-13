@@ -27,8 +27,7 @@
 </head>
 <body>
 
-  {% comment %} Official Government Banner {% endcomment %}
-  {% component "banner" %}
+  {% component "banner" %} Official Government Banner {% endcomponent %}
 
   {% block header %}
   <header class="usa-header usa-header--basic">
@@ -74,6 +73,7 @@
 
         {% comment %} Demo Alert Component {% endcomment %}
         {% component "alert" type="success" heading="Success!" message="This is a demo USWDS alert component built with django-components." %}
+        {% endcomponent %}
 
       </div>
     </section>

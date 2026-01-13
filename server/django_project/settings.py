@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import sys
 from datetime import timedelta, timezone
 from pathlib import Path
 
@@ -53,6 +54,9 @@ def get_env_list(key: str, default: list[str] | None = None) -> list[str]:
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Add BASE_DIR to Python path for component imports
+sys.path.insert(0, str(BASE_DIR))
 
 # Load environment variables from .env file if it exists
 # If not found, will fall back to system environment variables
@@ -106,7 +110,6 @@ TEMPLATES = [  # type: ignore
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -117,19 +120,24 @@ TEMPLATES = [  # type: ignore
             "builtins": [
                 "django_components.templatetags.component_tags",
             ],
+            "loaders": [
+                "django_components.template_loader.Loader",
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
+            ],
         },
     },
 ]
 
 # Django Components Configuration
-defaults = ComponentsSettings(
+COMPONENTS = ComponentsSettings(
     autodiscover=True,
     cache=None,
     context_behavior=ContextBehavior.DJANGO.value,  # "django" | "isolated"
     # Root-level "components" dirs, e.g. `/path/to/proj/components/`
     dirs=[Path(BASE_DIR) / "components"],
     # App-level "components" dirs, e.g. `[app]/components/`
-    app_dirs=["components"],
+    app_dirs=[],
     debug_highlight_components=False,
     debug_highlight_slots=False,
     dynamic_component_name="dynamic",
@@ -140,17 +148,41 @@ defaults = ComponentsSettings(
     reload_on_file_change=False,
     static_files_allowed=[
         ".css",
-        ".js", ".jsx", ".ts", ".tsx",
+        ".js",
+        ".jsx",
+        ".ts",
+        ".tsx",
         # Images
-        ".apng", ".png", ".avif", ".gif", ".jpg",
-        ".jpeg", ".jfif", ".pjpeg", ".pjp", ".svg",
-        ".webp", ".bmp", ".ico", ".cur", ".tif", ".tiff",
+        ".apng",
+        ".png",
+        ".avif",
+        ".gif",
+        ".jpg",
+        ".jpeg",
+        ".jfif",
+        ".pjpeg",
+        ".pjp",
+        ".svg",
+        ".webp",
+        ".bmp",
+        ".ico",
+        ".cur",
+        ".tif",
+        ".tiff",
         # Fonts
-        ".eot", ".ttf", ".woff", ".otf", ".svg",
+        ".eot",
+        ".ttf",
+        ".woff",
+        ".otf",
+        ".svg",
     ],
     static_files_forbidden=[
-        ".html", ".django", ".dj", ".tpl",
-        ".py", ".pyc",
+        ".html",
+        ".django",
+        ".dj",
+        ".tpl",
+        ".py",
+        ".pyc",
     ],
     tag_formatter="django_components.component_formatter",
     template_cache_size=128,
@@ -224,10 +256,10 @@ SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 
 
-################################################################################
+###############################################################################
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-################################################################################
+###############################################################################
 
 
 AUTH_PASSWORD_VALIDATORS = [

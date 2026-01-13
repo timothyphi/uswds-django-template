@@ -6,9 +6,17 @@ class Card(Component):
     """
     USWDS Card Component
 
+    Variants:
+        - Default card: Basic card with title, body, and optional footer
+        - Flag layout: Horizontal card with media on left (or right with media_right=True)
+        - Header first: Display header before media (header_first=True)
+        - Media variants: inset, exdent positioning
+
     Usage:
         {% component "card" title="Card Title" description="Card description text" %}
-        {% component "card" title="Featured" description="Description" link_url="/page" link_text="Read More" %}
+        {% component "card" title="Card" description="Text" link_url="#" link_text="Visit" %}
+        {% component "card" title="With Media" media_url="/img.jpg" description="Text" %}
+        {% component "card" title="Flag" flag=True media_url="/img.jpg" description="Text" %}
     """
 
     template_name = "card/card.html"
@@ -21,7 +29,11 @@ class Card(Component):
         media_alt=None,
         link_url=None,
         link_text="Visit",
-        flag=False
+        flag=False,
+        header_first=False,
+        media_right=False,
+        media_inset=False,
+        media_exdent=False,
     ):
         return {
             "title": title,
@@ -31,6 +43,10 @@ class Card(Component):
             "link_url": link_url,
             "link_text": link_text,
             "flag": flag,
+            "header_first": header_first,
+            "media_right": media_right,
+            "media_inset": media_inset,
+            "media_exdent": media_exdent,
         }
 
     class Media:
