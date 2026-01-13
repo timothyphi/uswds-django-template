@@ -6,6 +6,11 @@ This document provides coding agents with essential information about this proje
 
 Django 5.2 backend with USWDS 3.12 design system, SASS stylesheets, and TypeScript support. Uses django-components for reusable UI components, MSSQL/SQLite database, and Redis cache.
 
+**Python Version:** 3.11+  
+**Key Dependencies:** Django 5.2.1, django-components 0.143.2, Ruff 0.14.10
+
+**IMPORTANT: This project runs exclusively through Docker.** All development, testing, and production deployments use Docker containers. The Makefile provides Docker commands prefixed with `docker-dev-` for development and `docker-prod-` for production.
+
 ## Directory Structure
 
 ```
@@ -32,56 +37,69 @@ public/                     # Static assets (output)
 
 ## Build Commands
 
-### Development
+### Docker Development (Primary Method)
 ```bash
-# Local development (requires .venv)
-make dev-server              # Django dev server at localhost:8000
-make dev-watch-scss          # Watch SCSS for changes
-npm run server              # Alternative: Django dev server
-npm run scss                # Alternative: Watch SCSS
+# Start development environment
+make docker-dev-up          # Start all services (Django, MSSQL, Redis) in detached mode
+make docker-dev-rebuild     # Rebuild and start in foreground (useful for debugging)
+make docker-dev-down        # Stop and remove containers
+make docker-dev-down-volumes # Stop and remove containers with volumes (clean slate)
 
-# Docker development
-make docker-dev-up          # Start all services (Django, MSSQL, Redis)
-make docker-dev-down        # Stop all services
-make docker-dev-rebuild     # Rebuild and start
-make docker-dev-logs        # View logs (optional: SERVICE=django)
+# View logs
+make docker-dev-logs             # View all service logs
+make docker-dev-logs SERVICE=django   # View specific service logs
+# Available services: django, mssql, redis
+
+# Container management
+make docker-dev-restart-all           # Restart all containers
+make docker-dev-restart SERVICE=django # Restart specific service
+make docker-ps                        # Show container status
+
+# Execute commands in containers
+make docker-exec-dev CMD="bash"                          # Open bash shell
+make docker-exec-dev CMD="python server/manage.py shell" # Django shell
+make docker-exec-dev CMD="python server/manage.py migrate" # Run migrations
+make docker-exec-dev CMD="python server/manage.py test"   # Run all tests
+make docker-exec-dev CMD="python server/manage.py test core.tests.TestClass" # Single test
 ```
 
-### Build & Compilation
+### Docker Production
+```bash
+make docker-prod-up         # Start production environment (Apache on port 8080)
+make docker-prod-rebuild    # Rebuild and start production
+make docker-prod-down       # Stop production containers
+make docker-prod-logs       # View production logs
+make docker-exec-prod CMD="bash" # Execute commands in production container
+```
+
+### Build & Compilation (Run locally or in container)
 ```bash
 make build                  # Compile SCSS to CSS
-npm run build               # Alternative
 npx gulp compile            # Direct gulp command
 npx gulp init               # First-time setup (copy USWDS assets)
 ```
 
-### Testing
+### Testing (Run in Docker container)
 ```bash
-# Django tests
-make test-django                              # Run all tests
-.venv/bin/python server/manage.py test        # Direct command
-.venv/bin/python server/manage.py test app.tests.TestClass  # Single test class
-.venv/bin/python server/manage.py test app.tests.TestClass.test_method  # Single test
+# Django tests - run inside Docker container
+make docker-exec-dev CMD="python server/manage.py test"
+make docker-exec-dev CMD="python server/manage.py test core"
+make docker-exec-dev CMD="python server/manage.py test core.tests.TestClass"
+make docker-exec-dev CMD="python server/manage.py test core.tests.TestClass.test_method"
 
-# Test with coverage
-make test-django-coverage   # Run tests with coverage report
+# With coverage
+make docker-exec-dev CMD="coverage run --source='.' server/manage.py test && coverage report"
 
-# Accessibility testing
+# Accessibility testing (run after starting Docker environment)
 make test-accessibility URL=http://localhost:8000
-npm run acheck -- http://localhost:8000
 ```
 
-### Linting & Formatting
+### Linting & Formatting (Run locally if .venv exists)
 ```bash
 make lint                   # Check Python code with Ruff
 make format                 # Format Python code with Ruff
 make lint-fix               # Auto-fix linting + formatting
 make quality                # Run all quality checks
-
-# Direct Ruff commands
-.venv/bin/ruff check server/              # Lint
-.venv/bin/ruff check --fix server/        # Auto-fix
-.venv/bin/ruff format server/             # Format
 ```
 
 ## Code Style Guidelines
@@ -209,6 +227,29 @@ class MyComponent(Component):
 - Use django-components for reusable UI elements
 - Template syntax: `{% component "name" param=value %}`
 
+**Custom CSS in Templates:**
+For page-specific or one-off layout styles, use the `extra_css` block in templates:
+```html
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<style>
+  .custom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="custom-grid">
+    <!-- content -->
+  </div>
+{% endblock %}
+```
+This approach keeps custom layout styles near relevant code and reduces reliance on SCSS build process.
+
 ## Django Management Commands
 
 ```bash
@@ -228,6 +269,12 @@ make django-collectstatic         # Collect static files
 
 # Create new app
 make django-createapp NAME=myapp
+```
+
+**Note:** These commands run locally with `.venv`. To run in Docker, use:
+```bash
+make docker-exec-dev CMD="python server/manage.py <command>"
+# Example: make docker-exec-dev CMD="python server/manage.py makemigrations"
 ```
 
 ## Environment Setup
@@ -266,7 +313,7 @@ make docker-dev-up
 make docker-prod-up
 
 # Execute commands in container
-make docker-exec-dev CMD="python manage.py shell"
+make docker-exec-dev CMD="python server/manage.py shell"
 ```
 
 ## Excluded from Linting
@@ -279,7 +326,9 @@ make docker-exec-dev CMD="python manage.py shell"
 
 ## Notes for Agents
 
-- Always activate virtual environment: `.venv/bin/python` or `.venv/bin/ruff`
+- **CRITICAL: Run all Django commands inside Docker containers** using `make docker-exec-dev CMD="..."`
+- Always use Docker for development: `make docker-dev-up` to start
+- For linting/formatting, you can use local `.venv` if available, or run inside Docker
 - Run `make lint-fix` before committing Python code
 - Static files are in `public/`, generated from `styles/` by gulp
 - Don't edit files in `public/css/`, `public/fonts/`, `public/img/`, `public/uswds/` - they're generated
