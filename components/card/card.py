@@ -34,6 +34,7 @@ class Card(Component):
         media_right=False,
         media_inset=False,
         media_exdent=False,
+        grid_col=None,
     ):
         return {
             "title": title,
@@ -47,6 +48,7 @@ class Card(Component):
             "media_right": media_right,
             "media_inset": media_inset,
             "media_exdent": media_exdent,
+            "grid_col": grid_col,
         }
 
     class Media:

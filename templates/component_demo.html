@@ -4,51 +4,6 @@
 {% block title %}USWDS Component Demo{% endblock %}
 
 {% block extra_css %}
-<style>
-  /* Auto-fit card grid layout */
-  .card-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    gap: 2rem !important;
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-  }
-
-  /* Override USWDS positioning on card grid children */
-  .card-grid > * {
-    margin: 0 !important;
-    max-width: none !important;
-    width: 100% !important;
-  }
-
-  /* Ensure cards stretch to fill grid cell height */
-  .card-grid > .usa-card {
-    height: 100%;
-    position: relative !important;
-    flex: none !important;
-  }
-
-  /* Ensure card container takes full height */
-  .card-grid .usa-card__container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Push footer to bottom of card */
-  .card-grid .usa-card__body {
-    flex-grow: 1;
-  }
-
-  /* Responsive adjustments */
-  @media (min-width: 640px) {
-    .card-grid {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
-    }
-  }
-</style>
 {% endblock %}
 
 {% block content %}
@@ -136,31 +91,42 @@
     <!-- Card Components Section -->
     <h2 class="margin-top-0">Card Components</h2>
     <p class="text-base-dark margin-bottom-3">
-      Cards contain content and actions about a single subject.
+      Cards contain content and actions about a single subject. These examples show a responsive grid of cards with various USWDS card variations.
     </p>
 
-    <h3 class="font-body-lg text-bold margin-top-4 margin-bottom-2">Default Cards</h3>
-    <div class="card-grid">
-      {% component "card" title="Basic Card (no media)" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis earum tenetur quo cupiditate, eaque qui officia recusandae." link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-      
-      {% component "card" title="Card with Media" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis earum tenetur quo cupiditate, eaque qui officia recusandae." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-      
-      {% component "card" title="Header First + Exdent Media" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore possimus similique nemo odit doloremque laudantium?" header_first=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_exdent=True link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-      
-      {% component "card" title="Inset Media" description="Etiam vitae sodales metus. Fusce id orci dignissim, efficitur risus eget, tempus odio. Donec lectus ante, auctor eget cursus sed, convallis quis magna." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_inset=True link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-      
-      {% component "card" title="Exdent Media" description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore possimus similique nemo odit doloremque laudantium?" media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" media_exdent=True link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-    </div>
-
-    <h3 class="font-body-lg text-bold margin-top-6 margin-bottom-2">Additional Cards</h3>
+    <h3 class="font-body-lg text-bold margin-top-4 margin-bottom-2">Card Grid - Mixed Variations</h3>
     <p class="text-base-dark margin-bottom-3">
-      Additional card examples showing media positioning and inset options.
+      This grid demonstrates different card styles working together. The grid automatically adjusts from 1 column on mobile, to 2 columns on tablet, to 3 columns on widescreen.
     </p>
-    <div class="card-grid">
-      {% component "card" title="Media Left" description="Lorem ipsum dolor sit amet consectetur adipisicing elit." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
+    <ul class="usa-card-group">
+      {% component "card" title="New York" description="Explore the city that never sleeps with its iconic skyline, world-class museums, and diverse neighborhoods." link_url="#" link_text="Explore NYC" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
       
-      {% component "card" title="Media Right + Inset" description="Lorem ipsum dolor sit amet consectetur adipisicing elit." media_inset=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="A placeholder image" link_url="#" link_text="Visit Florida Keys" %}{% endcomponent %}
-    </div>
+      {% component "card" title="San Francisco" description="Discover the Golden Gate City's stunning views, innovative tech culture, and historic cable cars." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="San Francisco skyline" link_url="#" link_text="Visit SF" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Chicago" description="Experience the Windy City's stunning architecture, deep-dish pizza, and vibrant arts scene." header_first=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Chicago architecture" media_exdent=True link_url="#" link_text="See Chicago" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Seattle" description="Visit the Emerald City for coffee culture, tech innovation, and breathtaking Pacific Northwest scenery." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Seattle space needle" media_inset=True link_url="#" link_text="Discover Seattle" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Austin" description="Enjoy live music, delicious BBQ, and the unique culture that keeps Austin weird and wonderful." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Austin downtown" media_exdent=True link_url="#" link_text="Visit Austin" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Boston" description="Walk through American history in this city of firsts, from the Freedom Trail to prestigious universities." link_url="#" link_text="Tour Boston" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Miami" description="Soak up the sun in this tropical paradise known for Art Deco architecture, Cuban culture, and beautiful beaches." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Miami beach" link_url="#" link_text="Explore Miami" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Portland" description="Experience the Pacific Northwest's quirky culture, craft breweries, and stunning natural beauty all around." header_first=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Portland bridge" media_exdent=True link_url="#" link_text="See Portland" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+      
+      {% component "card" title="Denver" description="Enjoy mile-high adventures with Rocky Mountain views, craft beer scene, and outdoor recreation year-round." media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Denver mountains" media_inset=True link_url="#" link_text="Visit Denver" grid_col="tablet-lg:grid-col-6 widescreen:grid-col-4" %}{% endcomponent %}
+    </ul>
+
+    <h3 class="font-body-lg text-bold margin-top-6 margin-bottom-2">Flag Layout Cards</h3>
+    <p class="text-base-dark margin-bottom-3">
+      Flag cards display in a horizontal layout with media positioned to the left or right, perfect for feature lists or highlighted content.
+    </p>
+    <ul class="usa-card-group">
+      {% component "card" title="National Parks" description="America's national parks preserve the country's most spectacular landscapes and diverse ecosystems for future generations." flag=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="National park scenery" link_url="#" link_text="Explore Parks" grid_col="flex-1" %}{% endcomponent %}
+      
+      {% component "card" title="Historic Sites" description="Discover the places where American history was made, from colonial settlements to civil rights landmarks." flag=True media_right=True media_inset=True media_url="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg" media_alt="Historic building" link_url="#" link_text="Visit Sites" grid_col="flex-1" %}{% endcomponent %}
+    </ul>
 
     <hr class="margin-y-6">
 

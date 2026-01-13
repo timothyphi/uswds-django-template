@@ -1,4 +1,4 @@
-<div class="usa-card">
+<li class="usa-card{% if grid_col %} {{ grid_col }}{% endif %}{% if flag %} usa-card--flag{% endif %}{% if header_first %} usa-card--header-first{% endif %}{% if media_right %} usa-card--media-right{% endif %}">
   <div class="usa-card__container">
     {% if header_first or not media_url %}
     <div class="usa-card__header">
@@ -26,4 +26,4 @@
     </div>
     {% endif %}
   </div>
-</div>
+</li>
