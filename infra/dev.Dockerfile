@@ -26,11 +26,11 @@ RUN curl https://packages.microsoft.com/config/rhel/9/prod.repo -o /etc/yum.repo
     dnf clean all
 
 # Copy requirements file
-COPY requirements.txt /app/
+COPY requirements-dev.txt /app/
 
 # Install Python dependencies
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
 # Copy application code
 COPY . /app/
