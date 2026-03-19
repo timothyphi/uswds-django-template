@@ -13,7 +13,7 @@ class Banner(Component):
         None - This component takes no parameters
 
     Usage:
-        {% component "banner" %}Official Government Banner{% endcomponent %}
+        {% component "banner" %}{% endcomponent %}
 
     Note:
         The banner content is typically provided in the template between the opening
@@ -25,7 +25,3 @@ class Banner(Component):
 
     def get_context_data(self):
         return {}
-
-    class Media:
-        css = "banner/banner.css"
-        js = "banner/banner.js"

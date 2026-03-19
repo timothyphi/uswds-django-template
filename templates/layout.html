@@ -20,16 +20,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicons/favicon-16.png' %}">
   <link rel="shortcut icon" href="{% static 'img/favicons/favicon.ico' %}">
 
-  <!-- USWDS Styles -->
+  <!-- USWDS ( and additional SASS styles included in styles.css ) -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+  <script src="{% static 'uswds/js/uswds-init.min.js' %}"></script>
+  <script defer src="{% static 'uswds/js/uswds.min.js' %}"></script>
+  
+  {% block head %}{% endblock %}
   {% block extra_css %}{% endblock %}
+
 </head>
 <body>
 
-  {% component "banner" %}
-    Official Government Banner
-  {% endcomponent %}
+  {% component "banner" %}{% endcomponent %}
 
   {% block header %}
   <header class="usa-header usa-header--basic">
@@ -64,26 +66,7 @@
   {% endblock %}
 
   <main id="main-content">
-    {% block content %}
-    <section class="usa-section">
-      <div class="grid-container">
-        <h1>Welcome to the USWDS Django Template</h1>
-        <p class="usa-intro">
-          This template includes reusable USWDS components for building accessible,
-          mobile-friendly government websites.
-        </p>
-
-        {% comment %} Demo Alert Component {% endcomment %}
-        {% component "alert"
-          type="success"
-          heading="Success!"
-          message="This is a demo USWDS alert component built with django-components."
-        %}
-        {% endcomponent %}
-
-      </div>
-    </section>
-    {% endblock %}
+    {% block content %}{% endblock %}
   </main>
 
   {% block footer %}
@@ -120,10 +103,6 @@
     </div>
   </footer>
   {% endblock %}
-
-  <!-- USWDS JavaScript -->
-  <script src="{% static 'uswds/js/uswds-init.min.js' %}"></script>
-  <script src="{% static 'uswds/js/uswds.min.js' %}"></script>
 
   {% block extra_js %}{% endblock %}
 </body>

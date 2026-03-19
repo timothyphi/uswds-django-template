@@ -44,7 +44,18 @@ class Button(Component):
 
     template_name = "button/button.html"
 
-    def get_context_data(self, text, type="default", size=None, url=None, submit=False):
+    def get_context_data(
+        self,
+        text,
+        type="default",
+        color=None,  # TODO: implement in template, update docs
+        outline=False,  # TODO: implmeent in template, update docs
+        inversse=False,  # TODO: implmeent in template, update docs
+        unstyled=False,
+        size=None,
+        url=None,
+        submit=False
+    ):
         return {
             "text": text,
             "type": type,
@@ -52,6 +63,3 @@ class Button(Component):
             "url": url,
             "submit": submit,
         }
-
-    class Media:
-        css = "button/button.css"

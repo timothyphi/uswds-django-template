@@ -38,13 +38,16 @@ class Alert(Component):
 
     template_name = "alert/alert.html"
 
-    def get_context_data(self, type="info", heading=None, message="", slim=False):
+    def get_context_data(
+        self,
+        type="info",
+        heading=None,
+        message="",
+        slim=False,
+    ):
         return {
             "type": type,
             "heading": heading,
             "message": message,
             "slim": slim,
         }
-
-    class Media:
-        css = "alert/alert.css"

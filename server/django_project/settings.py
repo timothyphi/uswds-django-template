@@ -13,8 +13,8 @@ import sys
 from datetime import timedelta, timezone
 from pathlib import Path
 
-from dotenv import load_dotenv
 from django_components import ComponentsSettings, ContextBehavior
+from dotenv import load_dotenv
 
 
 def create_directory(folderpath: Path) -> None:
@@ -69,10 +69,10 @@ CONFIG_HOST = get_env("HOST", "localhost")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env("SECRET_KEY", required=True)
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# WARNING: don't run with debug turned on in production!
 DEBUG = get_env_bool("DEBUG", default=(MODE != "prod"))
 
 ALLOWED_HOSTS = get_env_list("ALLOWED_HOSTS", [CONFIG_HOST])
@@ -149,9 +149,6 @@ COMPONENTS = ComponentsSettings(
     static_files_allowed=[
         ".css",
         ".js",
-        ".jsx",
-        ".ts",
-        ".tsx",
         # Images
         ".apng",
         ".png",
@@ -183,6 +180,9 @@ COMPONENTS = ComponentsSettings(
         ".tpl",
         ".py",
         ".pyc",
+        ".jsx",
+        ".ts",
+        ".tsx",
     ],
     tag_formatter="django_components.component_formatter",
     template_cache_size=128,
@@ -202,11 +202,6 @@ DB_PORT = get_env_int("DB_PORT", 1433)
 DB_NAME = get_env("DB_NAME", "")
 DB_USER = get_env("DB_USER", "")
 DB_PASS = get_env("DB_PASS", "")
-
-# Redis Configuration
-REDIS_HOST = get_env("REDIS_HOST", "localhost")
-REDIS_PORT = get_env_int("REDIS_PORT", 6379)
-REDIS_DB = get_env_int("REDIS_DB", 0)
 
 if DB_HOST and DB_NAME and DB_USER and DB_PASS:
     DATABASES = {  # type: ignore
@@ -233,10 +228,17 @@ else:
     }
 
 
-################################################################################
+###############################################################################
 # Cache Configuration (Redis)
 # https://docs.djangoproject.com/en/5.0/topics/cache/
-################################################################################
+###############################################################################
+
+# NOTE: comment the below configuration to disable Redis
+
+# Redis Configuration
+REDIS_HOST = get_env("REDIS_HOST", "localhost")
+REDIS_PORT = get_env_int("REDIS_PORT", 6379)
+REDIS_DB = get_env_int("REDIS_DB", 0)
 
 
 CACHES = {  # type: ignore
@@ -276,6 +278,57 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+##########################################################################
+# LDAP configuration
+# https://django-auth-ldap.readthedocs.io/en/latest/install.html
+##########################################################################
+
+## LDAP Configuration
+# LDAP_SERVER_URI = ENV_DATA["LDAP_SERVER_URI"]
+# LDAP_AUTH_BIND_DN = ENV_DATA["LDAP_AUTH_BIND_DN"]
+# LDAP_AUTH_BIND_PASS = ENV_DATA["LDAP_AUTH_BIND_PASS"]
+# LDAP_SEARCH_OU = ENV_DATA["LDAP_SEARCH_OU"]
+#
+# AUTH_LDAP_GLOBAL_OPTIONS = {
+#    ldap.OPT_X_TLS_REQUIRE_CERT: True,
+#    ldap.OPT_X_TLS_DEMAND: True,
+#    ldap.OPT_REFERRALS: 0,
+#    # ldap.OPT_X_TLS_CACERTFILE: '/etc/ssl/certs/mycertfile.pem'
+# }
+#
+# AUTH_LDAP_SERVER_URI = ENV_DATA["LDAP_SERVER_URI"]
+# AUTH_LDAP_BIND_DN = ENV_DATA["LDAP_AUTH_BIND_DN"]
+# AUTH_LDAP_BIND_PASSWORD = ENV_DATA["LDAP_AUTH_BIND_PASS"]
+# AUTH_LDAP_USER_SEARCH = LDAPSearch(
+#    LDAP_SEARCH_OU,
+#    ldap.SCOPE_SUBTREE,
+#    "(sAMAccountName=%(user)s)",
+# )
+#
+## Populate the Django user from the LDAP directory.
+# AUTH_LDAP_USER_ATTR_MAP = {
+#    "first_name": "givenName",
+#    "last_name": "sn",
+#    "email": "mail",
+# }
+#
+## AUTH_LDAP_START_TLS = True
+#
+## This is the default, but I like to be explicit.
+# AUTH_LDAP_ALWAYS_UPDATE_USER = True
+#
+## Cache distinguished names and group memberships for an hour to minimize
+## LDAP traffic.
+# AUTH_LDAP_CACHE_TIMEOUT = 3600
+#
+# AUTHENTICATION_BACKENDS = [
+#    "django_auth_ldap.backend.LDAPBackend",
+#    "django.contrib.auth.backends.ModelBackend",
+# ]
+#
+# LOGIN_REDIRECT_URL = "/"
 
 
 ###############################################################################

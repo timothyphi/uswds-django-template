@@ -13,10 +13,10 @@ class Command(BaseCommand):
     help = "Create a superuser if no users exist in the database"
 
     def handle(self, *args, **options):
-        User = get_user_model()
+        user = get_user_model()
 
         # Check if any users exist
-        if User.objects.exists():
+        if user.objects.exists():
             self.stdout.write(
                 self.style.WARNING(
                     "Users already exist in the database. Skipping superuser creation."
@@ -39,7 +39,7 @@ class Command(BaseCommand):
 
         try:
             # Create the superuser
-            User.objects.create_superuser(username=username, email=email, password=password)
+            user.objects.create_superuser(username=username, email=email, password=password)
             self.stdout.write(self.style.SUCCESS(f"Superuser '{username}' created successfully!"))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error creating superuser: {str(e)}"))

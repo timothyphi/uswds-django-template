@@ -39,6 +39,7 @@ class Card(Component):
           description="This card has a footer link"
           link_url="/details"
           link_text="Learn more"
+          grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
         %}{% endcomponent %}
 
         {% component "card"
@@ -46,6 +47,7 @@ class Card(Component):
           description="This card includes an image"
           media_url="/static/img/example.jpg"
           media_alt="Example image"
+          grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
         %}{% endcomponent %}
 
         {% component "card"
@@ -55,6 +57,7 @@ class Card(Component):
           media_url="/static/img/example.jpg"
           link_url="#"
           link_text="Visit"
+          grid_col="flex-1"
         %}{% endcomponent %}
 
         {% component "card"
@@ -63,6 +66,7 @@ class Card(Component):
           grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
           link_url="#"
           link_text="Read more"
+          grid_col="tablet:grid-col-6 tablet-lg:grid-col-4"
         %}{% endcomponent %}
 
     """
@@ -99,6 +103,3 @@ class Card(Component):
             "media_exdent": media_exdent,
             "grid_col": grid_col,
         }
-
-    class Media:
-        css = "card/card.css"

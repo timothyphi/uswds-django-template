@@ -46,13 +46,16 @@ class Accordion(Component):
 
     template_name = "accordion/accordion.html"
 
-    def get_context_data(self, items, bordered=False, multiselectable=False, id_prefix="accordion"):
+    def get_context_data(
+        self,
+        items,
+        bordered=False,
+        multiselectable=False,
+        id_prefix="accordion",
+    ):
         return {
             "items": items,
             "bordered": bordered,
             "multiselectable": multiselectable,
             "id_prefix": id_prefix,
         }
-
-    class Media:
-        css = "accordion/accordion.css"
