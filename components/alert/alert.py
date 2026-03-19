@@ -13,6 +13,7 @@ class Alert(Component):
         heading (str): Optional heading text for the alert
         message (str): The alert message content
         slim (bool): If True, displays a compact version without icon (default: False)
+        class (str): Additional CSS classes to append to the root element (default: None)
 
     Usage:
 
@@ -44,10 +45,12 @@ class Alert(Component):
         heading=None,
         message="",
         slim=False,
+        **kwargs,
     ):
         return {
             "type": type,
             "heading": heading,
             "message": message,
             "slim": slim,
+            "extra_class": kwargs.get("class"),
         }

@@ -1,4 +1,4 @@
-<div class="usa-alert usa-alert--{{ type }}{% if slim %} usa-alert--slim{% endif %}" role="alert">
+<div class="usa-alert usa-alert--{{ type }}{% if slim %} usa-alert--slim{% endif %}{% if extra_class %} {{ extra_class }}{% endif %}" role="alert">
   <div class="usa-alert__body">
     {% if heading %}
     <h4 class="usa-alert__heading">{{ heading }}</h4>

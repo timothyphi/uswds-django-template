@@ -1,4 +1,4 @@
-<div class="usa-accordion{% if bordered %} usa-accordion--bordered{% endif %}"{% if multiselectable %} data-allow-multiple{% endif %}>
+<div class="usa-accordion{% if bordered %} usa-accordion--bordered{% endif %}{% if extra_class %} {{ extra_class }}{% endif %}"{% if multiselectable %} data-allow-multiple{% endif %}>
   {% for item in items %}
   <h4 class="usa-accordion__heading">
     <button

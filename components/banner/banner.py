@@ -10,7 +10,7 @@ class Banner(Component):
     as an official government website. Should be placed at the very top of the page.
 
     Parameters:
-        None - This component takes no parameters
+        class (str): Additional CSS classes to append to the root element (default: None)
 
     Usage:
         {% component "banner" %}{% endcomponent %}
@@ -23,5 +23,7 @@ class Banner(Component):
 
     template_name = "banner/banner.html"
 
-    def get_context_data(self):
-        return {}
+    def get_context_data(self, **kwargs):
+        return {
+            "extra_class": kwargs.get("class"),
+        }

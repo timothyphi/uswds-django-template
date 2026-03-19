@@ -13,6 +13,7 @@ class Accordion(Component):
         bordered (bool): If True, adds borders around accordion (default: False)
         multiselectable (bool): If True, allows multiple sections open at once (default: False)
         id_prefix (str): Prefix for accordion IDs to avoid conflicts (default: "accordion")
+        class (str): Additional CSS classes to append to the root element (default: None)
 
     Usage:
 
@@ -52,10 +53,12 @@ class Accordion(Component):
         bordered=False,
         multiselectable=False,
         id_prefix="accordion",
+        **kwargs,
     ):
         return {
             "items": items,
             "bordered": bordered,
             "multiselectable": multiselectable,
             "id_prefix": id_prefix,
+            "extra_class": kwargs.get("class"),
         }

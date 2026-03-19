@@ -15,6 +15,7 @@ class Button(Component):
         size (str): Button size - "big" or None for normal (default: None)
         url (str): Optional URL to make the button a link (default: None)
         submit (bool): If True, renders as submit button (default: False)
+        class (str): Additional CSS classes to append to the root element (default: None)
 
     Usage:
 
@@ -54,7 +55,8 @@ class Button(Component):
         unstyled=False,
         size=None,
         url=None,
-        submit=False
+        submit=False,
+        **kwargs,
     ):
         return {
             "text": text,
@@ -62,4 +64,5 @@ class Button(Component):
             "size": size,
             "url": url,
             "submit": submit,
+            "extra_class": kwargs.get("class"),
         }

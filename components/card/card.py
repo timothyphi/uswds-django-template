@@ -21,6 +21,7 @@ class Card(Component):
         media_inset (bool): If True, adds padding around media (default: False)
         media_exdent (bool): If True, extends media beyond card border (default: False)
         grid_col (str): Optional grid column classes for responsive layout
+        class (str): Additional CSS classes to append to the root element (default: None)
 
     Variants:
         - Default card: Basic card with title, body, and optional footer
@@ -88,6 +89,7 @@ class Card(Component):
         media_inset=False,
         media_exdent=False,
         grid_col=None,
+        **kwargs,
     ):
         return {
             "title": title,
@@ -102,4 +104,5 @@ class Card(Component):
             "media_inset": media_inset,
             "media_exdent": media_exdent,
             "grid_col": grid_col,
+            "extra_class": kwargs.get("class"),
         }
