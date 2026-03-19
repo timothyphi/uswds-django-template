@@ -6,18 +6,47 @@ Add settings overrides in the form $setting: value,
 
 https://designsystem.digital.gov/documentation/settings/#general-settings-2
 
-Example:
-@use "uswds-core" with (
-  $theme-color-primary: "blue-60",
-  $theme-font-size-sm: "xs"
-);
 ----------------------------------------
 */
 
 @use "uswds-core" with (
-  // Enable responsive breakpoints for grid utilities
   $theme-utility-breakpoints: (
     "tablet-lg": true,
     "widescreen": true,
   ),
+
+  $theme-color-primary-lighter:  "indigo-cool-10",
+  $theme-color-primary-light:    "indigo-cool-30",
+  $theme-color-primary:          "indigo-cool-60v",
+  $theme-color-primary-vivid:    "indigo-cool-50v",
+  $theme-color-primary-dark:     "indigo-cool-70v",
+  $theme-color-primary-darker:   "indigo-cool-80v",
+
+  $theme-color-secondary-lighter: "red-warm-10",
+  $theme-color-secondary-light:   "red-warm-30",
+  $theme-color-secondary:         "red-warm-50",
+  $theme-color-secondary-vivid:   "red-warm-50v",
+  $theme-color-secondary-dark:    "red-warm-60v",
+  $theme-color-secondary-darker:  "red-warm-70v",
+
+  $theme-color-accent-cool-lighter: "mint-cool-5v",
+  $theme-color-accent-cool-light:   "mint-cool-20v",
+  $theme-color-accent-cool:         "mint-cool-40v",
+  $theme-color-accent-cool-dark:    "mint-cool-50v",
+  $theme-color-accent-cool-darker:  "mint-cool-60v",
+
+  $theme-color-accent-warm-lighter: "gold-5v",
+  $theme-color-accent-warm-light:   "gold-10v",
+  $theme-color-accent-warm:         "gold-20v",
+  $theme-color-accent-warm-dark:    "gold-30v",
+  $theme-color-accent-warm-darker:  "gold-50v",
+
+  $theme-color-base-lightest: "gray-warm-4",
+  $theme-color-base-lighter:  "gray-warm-10",
+  $theme-color-base-light:    "gray-warm-30",
+  $theme-color-base:          "gray-warm-50",
+  $theme-color-base-dark:     "gray-warm-60",
+  $theme-color-base-darker:   "gray-warm-70",
+  $theme-color-base-darkest:  "gray-warm-90",
+  $theme-color-base-ink:      "gray-warm-90",
 );
