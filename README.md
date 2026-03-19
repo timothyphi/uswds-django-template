@@ -5,7 +5,9 @@ A project template utilizing Django web framework, SASS for the organizing style
 ## Developer Recommended
 
 - [uv](https://github.com/astral-sh/uv) (Python package installer) - for managing Python dependencies and environment
-- [just](https://github.com/casey/just) (just a command runner) - for running and documenting routine developer commands
+- [just](https://github.com/casey/just) (just a command runner) - for running and documenting routine shell commands
+
+These tools are highly recommended but you may always use `python`/`pip` to install dependencies and manage virtual environments, and run shell commands *as is* listed in the `Justfile`.
 
 ## Developer Requirements
 
@@ -31,7 +33,7 @@ This single command installs all dependencies, sets up your environment, and bui
 **OR** run the individual steps:
 
 ```shell
-just install-python  # Uses system python for virtual environment
+just install-python     # Uses system python and version for virtual environment
 # OR
 just install-python-uv  # Uses system uv, adheres to .python-version
 
