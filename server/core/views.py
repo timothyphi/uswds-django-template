@@ -1,15 +1,15 @@
 """Views for the core app."""
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 
 
-def health_check(request):
+def health_check(request: HttpRequest):
     """Simple health check endpoint that returns 200 OK."""
     return HttpResponse(b"OK", content_type="text/plain", status=200)
 
 
-def component_demo(request):
+def component_demo(request: HttpRequest):
     """Demo page showcasing all available USWDS components."""
     context = {
         "accordion_items": [
