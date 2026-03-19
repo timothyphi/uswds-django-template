@@ -160,7 +160,7 @@ docker-prod-restart-all:
 docker-prod-up:
     docker compose --profile prod up -d
 
-j
+
 # =============================================================================
 # Docker - Utilities
 # =============================================================================
@@ -221,6 +221,11 @@ install-node:
 install-python:
     python -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
+
+
+# Create virtual environment and install Python dependencies using system uv
+install-python-uv:
+    uv sync
 
 
 # Complete initial setup (install deps + setup env + build)

@@ -4,8 +4,8 @@ A project template utilizing Django web framework, SASS for the organizing style
 
 ## Developer Recommended
 
-- [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager) - for managing Node.js versions
-- [uv](https://github.com/astral-sh/uv) (Python package installer) - for managing Python environments
+- [uv](https://github.com/astral-sh/uv) (Python package installer) - for managing Python dependencies and environment
+- [just](https://github.com/casey/just) (just a command runner) - for running and documenting routine developer commands
 
 ## Developer Requirements
 
@@ -20,7 +20,7 @@ A project template utilizing Django web framework, SASS for the organizing style
 
 ### Quick Start (Recommended)
 
-The following commands are equivalent and will install all dependencies, setup your environment, and build assets:
+The following commands are almost equivalent and will install all dependencies, setup your environment, and build assets:
 
 ```shell
 just setup
@@ -31,7 +31,10 @@ This single command installs all dependencies, sets up your environment, and bui
 **OR** run the individual steps:
 
 ```shell
-just install-python  # Create venv and install Python dependencies
+just install-python  # Uses system python for virtual environment
+# OR
+just install-python-uv  # Uses system uv, adheres to .python-version
+
 just install-node    # Install Node.js dependencies
 just env-setup       # Copy sample.env to .env
 just build           # Build SCSS to CSS
@@ -88,15 +91,8 @@ See `just --list` for all available commands.
 Use the `just` commands to add packages and automatically update `requirements.txt`:
 
 ```shell
-just python-add-prod package-name  # Add a production dependency (recommended)
+just python-add-prod package-name  # Add a production dependency
 just python-add-dev package-name   # Add a development-only dependency
-```
-
-Manual update using `uv pip`:
-
-```shell
-uv pip install package-name
-uv pip freeze > requirements.txt
 ```
 
 ## Supplemental Documentation
