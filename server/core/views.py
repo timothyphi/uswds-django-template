@@ -1,6 +1,6 @@
 """Views for the core app."""
 
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
 

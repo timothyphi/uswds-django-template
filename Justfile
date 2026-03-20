@@ -2,6 +2,13 @@
 # Run 'just --list' to see all available commands
 
 # =============================================================================
+# Platform detection
+# =============================================================================
+
+python   := if os_family() == "windows" { ".venv/Scripts/python" } else { ".venv/bin/python" }
+venv_bin := if os_family() == "windows" { ".venv/Scripts" } else { ".venv/bin" }
+
+# =============================================================================
 # Build & Compilation
 # =============================================================================
 
@@ -18,7 +25,7 @@ build:
 
 # Run Django development server (local Python)
 dev-server:
-    .venv/bin/python server/manage.py runserver
+    {{python}} server/manage.py runserver
 
 
 # Watch and compile SCSS files on change
@@ -33,42 +40,42 @@ dev-watch-scss:
 
 # Run Django check for deployment issues
 django-check:
-    .venv/bin/python server/manage.py check --deploy
+    {{python}} server/manage.py check --deploy
 
 
 # Collect static files for production
 django-collectstatic:
-    .venv/bin/python server/manage.py collectstatic --noinput
+    {{python}} server/manage.py collectstatic --noinput
 
 
 # Create a new Django app (e.g. just django-createapp myapp)
 django-createapp name:
-    .venv/bin/python server/manage.py startapp {{name}}
+    {{python}} server/manage.py startapp {{name}}
 
 
 # Create database migrations
 django-makemigrations:
-    .venv/bin/python server/manage.py makemigrations
+    {{python}} server/manage.py makemigrations
 
 
 # Apply database migrations
 django-migrate:
-    .venv/bin/python server/manage.py migrate
+    {{python}} server/manage.py migrate
 
 
 # Open Django shell
 django-shell:
-    .venv/bin/python server/manage.py shell
+    {{python}} server/manage.py shell
 
 
 # Show all migrations and their status
 django-showmigrations:
-    .venv/bin/python server/manage.py showmigrations
+    {{python}} server/manage.py showmigrations
 
 
 # Create a Django superuser
 django-superuser:
-    .venv/bin/python server/manage.py createsuperuser
+    {{python}} server/manage.py createsuperuser
 
 
 # =============================================================================
@@ -198,7 +205,7 @@ docker-logs:
 
 # Copy sample.env to .env
 env-setup:
-    cp sample.env .env
+    {{ if os_family() == "windows" { "copy sample.env .env" } else { "cp sample.env .env" } }}
     @echo "DONE: Created .env file from sample.env"
     @echo "NOTE: Remember to edit .env with your configuration values"
 
@@ -220,7 +227,7 @@ install-node:
 # Create virtual environment and install Python dependencies using system python and pip
 install-python:
     python -m venv .venv
-    .venv/bin/pip install -r requirements-dev.txt
+    {{venv_bin}}/pip install -r requirements-dev.txt
 
 
 # Create virtual environment and install Python dependencies using system uv
@@ -240,36 +247,36 @@ setup: install env-setup build
 
 # Add a production Python package and update requirements files (e.g. just python-add django)
 python-add-prod package:
-    .venv/bin/uv add {{package}}
+    {{venv_bin}}/uv add {{package}}
     just sync-requirements
     @echo "DONE: Added {{package}} and updated requirements files"
 
 
 # Add a development Python package and update requirements files (e.g. just python-add-dev ruff)
 python-add-dev package:
-    .venv/bin/uv add --optional dev {{package}}
+    {{venv_bin}}/uv add --optional dev {{package}}
     just sync-requirements
     @echo "DONE: Added {{package}} and updated requirements files"
 
 
 # Remove a production Python package and update requirements files (e.g. just python-remove-prod django)
 python-remove-prod package:
-    .venv/bin/uv remove {{package}}
+    {{venv_bin}}/uv remove {{package}}
     just sync-requirements
     @echo "DONE: Removed {{package}} and updated requirements files"
 
 
 # Remove a development Python package and update requirements files (e.g. just python-remove-dev ruff)
 python-remove-dev package:
-    .venv/bin/uv remove --optional dev {{package}}
+    {{venv_bin}}/uv remove --optional dev {{package}}
     just sync-requirements
     @echo "DONE: Removed {{package}} and updated requirements files"
 
 
 # Export uv lockfile to requirements.txt and requirements-dev.txt
 sync-requirements:
-    .venv/bin/uv export --no-dev --output-file requirements.txt
-    .venv/bin/uv export --extra dev --output-file requirements-dev.txt
+    {{venv_bin}}/uv export --no-dev --output-file requirements.txt
+    {{venv_bin}}/uv export --extra dev --output-file requirements-dev.txt
     @echo "DONE: Regenerated requirements.txt and requirements-dev.txt"
 
 
@@ -280,27 +287,27 @@ sync-requirements:
 
 # Run linter (Ruff) on Python code
 lint:
-    .venv/bin/ruff check server/
+    {{venv_bin}}/ruff check server/ scripts/
 
 
 # Format Python code with Ruff
 format:
-    .venv/bin/ruff format server/
+    {{venv_bin}}/ruff format server/ scripts/
 
 
 # Auto-fix linting and formatting issues (includes import sorting)
 lint-fix:
-    .venv/bin/ruff check --fix server/
-    .venv/bin/ruff format server/
+    {{venv_bin}}/ruff check --fix server/ scripts/
+    {{venv_bin}}/ruff format server/ scripts/
 
 
 # Run all quality checks (lint + format check)
 quality:
     @echo "Running linting checks..."
-    .venv/bin/ruff check server/
+    {{venv_bin}}/ruff check server/ scripts/
     @echo ""
     @echo "Checking code formatting..."
-    .venv/bin/ruff format --check server/
+    {{venv_bin}}/ruff format --check server/ scripts/
     @echo ""
     @echo "DONE: All quality checks passed!"
 
@@ -317,14 +324,14 @@ test-accessibility url="http://localhost:8000":
 
 # Run Django tests
 test-django:
-    .venv/bin/python server/manage.py test
+    {{python}} server/manage.py test
 
 
 # Run Django tests with coverage
 test-django-coverage:
-    .venv/bin/coverage run --source='.' server/manage.py test
-    .venv/bin/coverage report
-    .venv/bin/coverage html
+    {{venv_bin}}/coverage run --source='.' server/manage.py test
+    {{venv_bin}}/coverage report
+    {{venv_bin}}/coverage html
 
 
 # =============================================================================
@@ -338,23 +345,19 @@ clean: clean-python clean-node clean-venv
 
 # Clean all Python build artifacts and caches
 clean-python:
-    find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-    find . -type f -name "*.pyc" -delete
-    find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
-    find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
-    rm -rf .coverage htmlcov/
+    {{python}} scripts/clean.py
     @echo "DONE: Cleaned Python artifacts"
 
 
 # Clean Node.js artifacts
 clean-node:
-    rm -rf node_modules/
+    {{python}} scripts/clean.py --node
     @echo "DONE: Cleaned Node.js artifacts"
 
 
 # Clean Python virtual environment
 clean-venv:
-    rm -rf .venv/
+    {{python}} scripts/clean.py --venv
     @echo "DONE: Cleaned Python virtual environment"
 
 
