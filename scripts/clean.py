@@ -6,7 +6,7 @@ import argparse
 import shutil
 from pathlib import Path
 
-ROOT: Path = Path(__file__).resolve().parent.parent
+PROJECT_DIR: Path = Path(__file__).resolve().parent.parent
 
 GLOB_DIRS: list[str] = [
     "**/__pycache__",
@@ -25,21 +25,21 @@ DIRECT_PATHS: list[str] = [
 
 
 def remove_dirs(pattern: str) -> None:
-    for path in ROOT.glob(pattern):
+    for path in PROJECT_DIR.glob(pattern):
         if path.is_dir():
             shutil.rmtree(path, ignore_errors=True)
             print(f"  removed dir:  {path}")
 
 
 def remove_files(pattern: str) -> None:
-    for path in ROOT.glob(pattern):
+    for path in PROJECT_DIR.glob(pattern):
         if path.is_file():
             path.unlink()
             print(f"  removed file: {path}")
 
 
 def remove_direct(name: str) -> None:
-    path: Path = ROOT / name
+    path: Path = PROJECT_DIR / name
     if path.is_dir():
         shutil.rmtree(path, ignore_errors=True)
         print(f"  removed dir:  {path}")
